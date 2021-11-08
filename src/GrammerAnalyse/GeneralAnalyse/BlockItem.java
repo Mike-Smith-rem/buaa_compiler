@@ -2,8 +2,6 @@ package GrammerAnalyse.GeneralAnalyse;
 
 import GrammerAnalyse.GrammarInterface;
 
-import java.util.Deque;
-
 public class BlockItem extends GrammarInterface {
     //BlockItem -> Decl | Stmt
     //Decl -> ConstDecl | VarDecl

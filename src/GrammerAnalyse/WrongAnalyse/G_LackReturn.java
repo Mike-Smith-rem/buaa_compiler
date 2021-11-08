@@ -8,7 +8,8 @@ public class G_LackReturn extends WrongFormatAnalyse {
         Table func = getLatestFunc();
         boolean wrong = false;
         if (func != null && func.specie.equals("func")
-                && !func.funcType.equals("void")) {
+                && !func.funcType.equals("void")
+                && !func.returned) {
             wrong = true;
         }
         if (wrong) {
@@ -17,9 +18,11 @@ public class G_LackReturn extends WrongFormatAnalyse {
     }
 
     public Table getLatestFunc() {
-        if (cur_index == 1) {
-            return null;
+        for (int i = tables.size() - 1; i >= 0; i--) {
+            if (tables.get(i).specie.equals("func")) {
+                return tables.get(i);
+            }
         }
-        return tables.get(index.peek().get(cur_index) - 1);
+        return null;
     }
 }

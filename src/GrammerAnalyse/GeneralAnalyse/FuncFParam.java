@@ -12,6 +12,7 @@ public class FuncFParam extends GrammarInterface {
 
     @Override
     public void analyse() {
+        CompilerLoad.getCurrent_line();
         //BType
         BType type = new BType();
         type.analyse();
@@ -48,7 +49,7 @@ public class FuncFParam extends GrammarInterface {
                 //]
                 if (!equals(LexMap.element(), "RBRACK")) {
                     K_NoRBrack brack = new K_NoRBrack();
-                    brack.check(CompilerLoad.getCurrent_line());
+                    brack.check(CompilerLoad.current_line);
                 } else {
                     section.add(LexMap.poll());
                 }

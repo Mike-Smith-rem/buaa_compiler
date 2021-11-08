@@ -11,4 +11,5 @@ public class Table {
 
     public String funcType = "";
     public ArrayList<Table> FParams = new ArrayList<>();
+    public boolean returned = false;
 }

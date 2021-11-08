@@ -16,7 +16,7 @@ import java.util.List;
 public class CompilerLoad {
     public static HashMap<String, String> wordMap = new HashMap<>();
     public static int current_line = 0;
-    public static ArrayList<String> errorReport;
+    public static ArrayList<String> errorReport = new ArrayList<>();
     public static List<String> OriginFile;
 
     static void BuildMap() {
@@ -84,10 +84,10 @@ public class CompilerLoad {
         String FileName = "testfile.txt";
         OriginFile = getFileContent(FileName);
         LexAnalyse.run();
-        System.out.println("LexAnalyse Success!");
+        //System.out.println("LexAnalyse Success!");
         CompUnit compUnit = new CompUnit();
         compUnit.analyse();
-        System.out.println("GrammarAnalyse Success!");
+        //System.out.println("GrammarAnalyse Success!");
         String OutFile = "error.txt";
         OutputFileContent(OutFile);
     }

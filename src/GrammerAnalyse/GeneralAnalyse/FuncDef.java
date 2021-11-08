@@ -6,6 +6,9 @@ import GrammerAnalyse.Table.Table;
 import GrammerAnalyse.Table.TableIndex;
 import GrammerAnalyse.WrongAnalyse.B_Rename;
 import GrammerAnalyse.WrongAnalyse.J_NoRParent;
+import LexAnalyse.MyString;
+
+import java.util.HashMap;
 
 
 public class FuncDef extends GrammarInterface {
@@ -35,16 +38,30 @@ public class FuncDef extends GrammarInterface {
         element.name = identF.getIdent();
         element.funcType = type.getType();
 
+        HashMap<MyString, String> firstToken = null;
+        HashMap<MyString, String> secondToken = null;
+        int time = 0;
+        for (HashMap<MyString, String> key : LexMap) {
+            firstToken = time == 0 ? key : firstToken;
+            secondToken = time == 1 ? key : secondToken;
+            time ++;
+            if (time == 2) {
+                break;
+            }
+        }
         //FuncFParams
         if (!equals(LexMap.element(), "RPARENT")) {
-            FuncFParams funcFParams = new FuncFParams();
-            funcFParams.analyse();
-            element.FParams = funcFParams.getParams();
-            section.add(funcFParams);
+            assert secondToken != null;
+            if (!equals(secondToken, "LBRACE")) {
+                FuncFParams funcFParams = new FuncFParams();
+                funcFParams.analyse();
+                element.FParams = funcFParams.getParams();
+                section.add(funcFParams);
+            }
         }
 
         //)
-        if (equals(LexMap.element(), "RPARENT")) {
+        if (!equals(LexMap.element(), "RPARENT")) {
             J_NoRParent parent = new J_NoRParent();
             parent.check(CompilerLoad.current_line);
         } else {

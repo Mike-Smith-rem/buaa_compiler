@@ -11,6 +11,9 @@ public class E_UnmatchedParamType extends WrongFormatAnalyse {
         ArrayList<Table> FParams = func.FParams;
         boolean wrong = false;
         for (int i = 0; i < FParams.size(); i ++) {
+            if (RParams.get(i) == null) {
+                continue;
+            }
             if (RParams.get(i).specie.equals("func") &&
                     RParams.get(i).funcType.equals("void")) {
                 wrong = true;

@@ -76,11 +76,22 @@ public class FuncRParams extends GrammarInterface {
             return;
         }
         if (o instanceof LVal) {
-            Table param = ((LVal) o).param;
-            int del_lev = ((LVal) o).del_lev;
-            if (param != null) {
-                param.lev = param.lev - del_lev;
+            Table param1 = new Table();
+            if (((LVal) o).param != null) {
+                param1.specie = ((LVal) o).param.specie;
+                param1.funcType = ((LVal) o).param.funcType;
+                param1.name = ((LVal) o).param.name;
+                param1.returned = ((LVal) o).param.returned;
+                int del_lev = ((LVal) o).del_lev;
+                param1.lev = ((LVal) o).param.lev - del_lev;
             }
+            names.add(param1);
+            return;
+        }
+        if (o instanceof Number) {
+            Table param = new Table();
+            param.lev = 0;
+            param.specie = "var";
             names.add(param);
             return;
         }

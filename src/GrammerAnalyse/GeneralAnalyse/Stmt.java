@@ -10,7 +10,6 @@ import GrammerAnalyse.WrongAnalyse.I_NoSemicn;
 import GrammerAnalyse.WrongAnalyse.J_NoRParent;
 import GrammerAnalyse.WrongAnalyse.L_Unmatched_d;
 import GrammerAnalyse.WrongAnalyse.M_UnNeededToken;
-import javafx.scene.text.TextAlignment;
 
 public class Stmt extends GrammarInterface {
     @Override
@@ -88,20 +87,30 @@ public class Stmt extends GrammarInterface {
             //RETURN
             case "RETURNTK":
                 CompilerLoad.getCurrent_line();
+                Table func = getLatestFunc();
+                if (func != null && func.funcType.equals("void")) {
+                    func.returned = true;
+                }
                 section.add(LexMap.poll());
                 if (!equals(LexMap.element(), "SEMICN")
                         && getLine(LexMap.element()) == CompilerLoad.current_line) {
-                    Exp exp = new Exp();
-                    exp.analyse();
-                    section.add(exp);
+//                    Exp exp = new Exp();
+//                    exp.analyse();
+//                    section.add(exp);
 
                     FuncRParams funcRParams = new FuncRParams();
                     funcRParams.analyse();
                     Table RParam = funcRParams.RParams.get(0);
                     F_ExtraReturn extraReturn = new F_ExtraReturn();
                     extraReturn.check(CompilerLoad.current_line, RParam);
+                    section.add(funcRParams.section.get(0));
+                    if (func != null && !func.funcType.equals("void") && RParam.lev == 0) {
+                        func.returned = true;
+                    }
+                    else if (func != null && func.funcType.equals("void")) {
+                        func.returned = false;
+                    }
                 }
-
                 //;
                 if (!equals(LexMap.element(), "SEMICN")) {
                     I_NoSemicn semicn = new I_NoSemicn();
@@ -222,5 +231,12 @@ public class Stmt extends GrammarInterface {
                 }
                 break;
         }
+    }
+
+    public Table getLatestFunc() {
+        if (TableIndex.cur_index == 1) {
+            return null;
+        }
+        return TableIndex.tables.get(TableIndex.index.peek().get(TableIndex.cur_index) - 1);
     }
 }

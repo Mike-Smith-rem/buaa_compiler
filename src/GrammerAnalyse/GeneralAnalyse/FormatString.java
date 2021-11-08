@@ -23,5 +23,6 @@ public class FormatString extends GrammarInterface {
                 i += 1;
             }
         }
+        section.add(LexMap.poll());
     }
 }

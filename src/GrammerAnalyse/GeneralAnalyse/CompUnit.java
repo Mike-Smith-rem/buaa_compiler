@@ -35,6 +35,7 @@ public class CompUnit extends GrammarInterface {
             if (equals(firstToken, "CONSTTK")) {
                 Decl decl = new Decl();
                 section.add(decl);
+                decl.analyse();
             }
             else if (equals(firstToken, "INTTK")
                     && equals(secondToken, "IDENFR")
