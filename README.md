@@ -154,7 +154,7 @@ int main() {
       }
   }
   
-//结果保存
+  //结果保存
   static void checkToken(String word) {
       HashMap<MyString, String> token = new HashMap<>();
       MyString tk;
