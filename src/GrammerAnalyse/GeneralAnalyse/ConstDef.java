@@ -9,8 +9,8 @@ import GrammerAnalyse.WrongAnalyse.K_NoRBrack;
 
 public class ConstDef extends GrammarInterface {
     //ConstDef -> Ident {'[' ConstExp ']'} = ConstInitVal
-    String ident;
-    int lev = 0;
+    public String ident;
+    public int lev = 0;
 
     @Override
     public void analyse() {

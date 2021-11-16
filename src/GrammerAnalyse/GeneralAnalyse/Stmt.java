@@ -88,7 +88,7 @@ public class Stmt extends GrammarInterface {
             case "RETURNTK":
                 CompilerLoad.getCurrent_line();
                 Table func = getLatestFunc();
-                if (func != null && func.funcType.equals("void")) {
+                if (func != null) {
                     func.returned = true;
                 }
                 section.add(LexMap.poll());
@@ -104,12 +104,12 @@ public class Stmt extends GrammarInterface {
                     F_ExtraReturn extraReturn = new F_ExtraReturn();
                     extraReturn.check(CompilerLoad.current_line, RParam);
                     section.add(funcRParams.section.get(0));
-                    if (func != null && !func.funcType.equals("void") && RParam.lev == 0) {
-                        func.returned = true;
-                    }
-                    else if (func != null && func.funcType.equals("void")) {
-                        func.returned = false;
-                    }
+//                    if (func != null && !func.funcType.equals("void") && RParam.lev == 0) {
+//                        func.returned = true;
+//                    }
+//                    else if (func != null && func.funcType.equals("void")) {
+//                        func.returned = false;
+//                    }
                 }
                 //;
                 if (!equals(LexMap.element(), "SEMICN")) {

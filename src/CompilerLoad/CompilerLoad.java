@@ -18,6 +18,7 @@ public class CompilerLoad {
     public static int current_line = 0;
     public static ArrayList<String> errorReport = new ArrayList<>();
     public static List<String> OriginFile;
+    public static ArrayList<Object> GrammarTree = new ArrayList<>();
 
     static void BuildMap() {
         wordMap.put("ident", "IDENFR");
@@ -87,6 +88,7 @@ public class CompilerLoad {
         //System.out.println("LexAnalyse Success!");
         CompUnit compUnit = new CompUnit();
         compUnit.analyse();
+        GrammarTree.add(compUnit.section);
         //System.out.println("GrammarAnalyse Success!");
         String OutFile = "error.txt";
         OutputFileContent(OutFile);

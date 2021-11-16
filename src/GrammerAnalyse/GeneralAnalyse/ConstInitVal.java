@@ -6,8 +6,8 @@ import LexAnalyse.MyString;
 import java.util.HashMap;
 
 public class ConstInitVal extends GrammarInterface {
-    // ConstInitVal -> ConstExp
-    //                 '{'  [ConstInitVal {, ConstInitVal}] '}'
+    // ConstExp -> ConstExp
+    //                 '{'  [ConstExp {, ConstExp}] '}'
 
     @Override
     public void analyse() {
@@ -15,18 +15,18 @@ public class ConstInitVal extends GrammarInterface {
         if (equals(LexMap.element(), "LBRACE")) {
             //{
             section.add(LexMap.poll());
-            //[constInitVal, {...}]
+            //[constExp, {...}]
             if (!equals(LexMap.element(), "RBRACE")) {
-                //constInitVal
-                ConstInitVal constInitVal = new ConstInitVal();
-                constInitVal.analyse();
-                section.add(constInitVal);
+                //constExp
+                ConstExp constExp = new ConstExp();
+                constExp.analyse();
+                section.add(constExp);
 
                 while (equals(LexMap.element(), "COMMA")) {
                     section.add(LexMap.poll());
-                    constInitVal = new ConstInitVal();
-                    constInitVal.analyse();
-                    section.add(constInitVal);
+                    constExp = new ConstExp();
+                    constExp.analyse();
+                    section.add(constExp);
                 }
             }
             //}
