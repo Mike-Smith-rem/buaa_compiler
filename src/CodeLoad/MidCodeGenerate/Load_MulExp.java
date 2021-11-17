@@ -17,6 +17,7 @@ public class Load_MulExp extends CodeLoad {
     public int constValue = 0;
     public Queue<MidInterface> sonQueue = new LinkedList<>();
     public Queue<String> opQueue = new LinkedList<>();
+    public static int varNum = 0;
 
     public void setConstExp(boolean b) {
         isConstExp = b;
@@ -51,7 +52,7 @@ public class Load_MulExp extends CodeLoad {
             midInterface = sonQueue.element();
         } else {
             midInterface = new MidTable();
-            ((MidTable) midInterface).name = "@MulExp" + varNum;
+            midInterface.name = "@MulExp" + varNum;
             varNum += 1;
             MidInterface a;
             MidInterface b;
@@ -70,6 +71,7 @@ public class Load_MulExp extends CodeLoad {
                         assert b != null;
                         midInterface.value = a.value * b.value;
                         System.out.println(midInterface.name + " = " + a.name + " * " + b.name);
+                        midCode.add(midInterface.name + " = " + a.name + " * " + b.name);
                         break;
                     case "/":
                         if (size == 0) {
@@ -80,8 +82,11 @@ public class Load_MulExp extends CodeLoad {
                         b = sonQueue.poll();
                         assert a != null;
                         assert b != null;
-                        midInterface.value = a.value / b.value;
+                        if (b.value != 0) {
+                            midInterface.value = a.value / b.value;
+                        }
                         System.out.println(midInterface.name + " = " + a.name + " / " + b.name);
+                        midCode.add(midInterface.name + " = " + a.name + " / " + b.name);
                         break;
                     case "%":
                         if (size == 0) {
@@ -92,8 +97,11 @@ public class Load_MulExp extends CodeLoad {
                         b = sonQueue.poll();
                         assert a != null;
                         assert b != null;
-                        midInterface.value = a.value % b.value;
+                        if (b.value != 0) {
+                            midInterface.value = a.value % b.value;
+                        }
                         System.out.println(midInterface.name + " = " + a.name + " % " + b.name);
+                        midCode.add(midInterface.name + " = " + a.name + " % " + b.name);
                         break;
                 }
                 size += 1;

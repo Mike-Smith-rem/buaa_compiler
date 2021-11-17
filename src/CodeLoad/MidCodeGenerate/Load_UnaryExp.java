@@ -19,6 +19,7 @@ public class Load_UnaryExp extends CodeLoad {
     public boolean isConstExp = false;
     public MidInterface midInterface;
     public int constValue = 0;
+    public static int varNum = 0;
 
     public Load_PrimaryExp primary = null;
 
@@ -57,19 +58,16 @@ public class Load_UnaryExp extends CodeLoad {
                 op = getContent((HashMap<MyString, String>) item);
                 son = unaryExp;
             } else if (item instanceof Ident) {
-                Object item2 = section.get(i + 1);
-                i += 1;
                 for (int j = i; j < section.size(); j ++) {
                     Object item3 = section.get(j);
                     if (item3 instanceof FuncRParams) {
                         Load_FuncRParam funcRParam = new Load_FuncRParam();
-                        //Todo
-                    }
-                    if (item3 instanceof HashMap &&
-                            getContent((HashMap<MyString, String>) item3).equals(")")) {
-                        break;
+                        funcRParam.setSection(item3);
+                        funcRParam.analyse();
+                        rParam = funcRParam;
                     }
                 }
+                funcName = ((Ident) item).getIdent();
             }
         }
         addSentence();
@@ -81,11 +79,9 @@ public class Load_UnaryExp extends CodeLoad {
         if (primary != null) {
             midInterface = primary.midInterface;
         } else if (son != null) {
-            //Todo
-            //Primary
             // unaryOp unaryExp
             midInterface = new MidTable();
-            ((MidTable) midInterface).name = "@UnaryExp" + varNum;
+            midInterface.name = "@UnaryExp" + varNum;
             varNum += 1;
             MidInterface a;
             assert op != null;
@@ -95,22 +91,38 @@ public class Load_UnaryExp extends CodeLoad {
                     assert a != null;
                     midInterface.value = a.value;
                     System.out.println(midInterface.name + " = " + "+" + a.name);
+                    midCode.add(midInterface.name + " = " + "+" + a.name);
                     break;
                 case "-":
                     a = son.midInterface;
                     assert a != null;
                     midInterface.value = -a.value;
                     System.out.println(midInterface.name + " = " + "-" + a.name);
+                    midCode.add(midInterface.name + " = " + "-" + a.name);
                     break;
                 case "!":
                     a = son.midInterface;
                     assert a != null;
                     midInterface.answer = !a.answer;
                     System.out.println(midInterface.name + " = " + "!" + a.name);
+                    midCode.add(midInterface.name + " = " + "!" + a.name);
                     break;
             }
         } else if (funcName != null) {
-            //Todo
+            midInterface = new MidInterface();
+            midInterface.name = funcName + "(";
+            System.out.println("call " + funcName);
+            midCode.add("call " + funcName);
+            for (MidInterface it : rParam.RParam) {
+                midInterface.name += it.name;
+                midInterface.name += ", ";
+                System.out.println("push " + it.name);
+                midCode.add("push " + it.name);
+            }
+            if (midInterface.name.endsWith(", ")) {
+                midInterface.name = midInterface.name.substring(0, midInterface.name.length() - 2);
+            }
+            midInterface.name += ")";
         }
     }
 }

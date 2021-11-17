@@ -1,6 +1,9 @@
 package CompilerLoad;
 
+import CodeLoad.CodeLoad;
+import CodeLoad.MidCodeGenerate.Load_CompUnit;
 import GrammerAnalyse.GeneralAnalyse.CompUnit;
+import GrammerAnalyse.GrammarInterface;
 import LexAnalyse.*;
 
 import java.io.BufferedReader;
@@ -18,7 +21,7 @@ public class CompilerLoad {
     public static int current_line = 0;
     public static ArrayList<String> errorReport = new ArrayList<>();
     public static List<String> OriginFile;
-    public static ArrayList<Object> GrammarTree = new ArrayList<>();
+    public static ArrayList<String> midCode = new ArrayList<>();
 
     static void BuildMap() {
         wordMap.put("ident", "IDENFR");
@@ -74,8 +77,9 @@ public class CompilerLoad {
 
     static void OutputFileContent(String File) throws IOException {
         OutputStreamWriter owr = new OutputStreamWriter(new FileOutputStream(File));
-        for (String report : errorReport) {
+        for (String report : midCode) {
             owr.write(report);
+            owr.write("\n");
             owr.flush();
         }
         owr.close();
@@ -88,10 +92,18 @@ public class CompilerLoad {
         //System.out.println("LexAnalyse Success!");
         CompUnit compUnit = new CompUnit();
         compUnit.analyse();
-        GrammarTree.add(compUnit.section);
+//      GrammarTree.section.add(compUnit.section);
         //System.out.println("GrammarAnalyse Success!");
-        String OutFile = "error.txt";
-        OutputFileContent(OutFile);
+//        String OutFile = "error.txt";
+//        OutputFileContent(OutFile);
+        if (errorReport.size() == 0) {
+            Load_CompUnit compUnit1 = new Load_CompUnit();
+            compUnit1.setSection(compUnit);
+            compUnit1.analyse();
+            midCode = CodeLoad.midCode;
+            String OutFile = "midCode.txt";
+            OutputFileContent(OutFile);
+        }
     }
 
     public static int getCurrent_line() {

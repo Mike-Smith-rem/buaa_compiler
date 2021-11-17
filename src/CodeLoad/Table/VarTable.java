@@ -8,15 +8,15 @@ public class VarTable extends MidInterface{
     public int returnValue;
     public int lev1_length;
     public int lev2_length;
-    public ArrayList<Integer> level;
+    public ArrayList<Integer> level = new ArrayList<>();
 
     public VarTable generateFromArray2(int num) {
         VarTable table = new VarTable();
         table.name = name;
         table.lev = lev - 1;
-        table.lev1_length = lev1_length;
+        table.lev2_length = lev2_length;
         ArrayList<Integer> array = new ArrayList<>();
-        for (int i = num * lev1_length; i < (num + 1) * lev1_length; i ++) {
+        for (int i = num * lev2_length; i < (num + 1) * lev2_length; i ++) {
             array.add(level.get(i));
         }
         table.level = array;
@@ -24,11 +24,17 @@ public class VarTable extends MidInterface{
     }
 
     public int getReturnValue(int num) {
-        return level.get(num);
+        if (level != null && level.size() > num) {
+            return level.get(num);
+        }
+        return 0;
     }
 
     public int getReturnValue(int num1, int num2) {
-        return level.get(num1 * lev1_length + num2);
+        if (level != null && level.size() > num1 * lev2_length + num2) {
+            return level.get(num1 * lev2_length + num2);
+        }
+        return 0;
     }
 
     public int getReturnValue() {

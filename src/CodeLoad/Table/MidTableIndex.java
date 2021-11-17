@@ -1,10 +1,7 @@
 package CodeLoad.Table;
 
-import GrammerAnalyse.GeneralAnalyse.FuncDef;
-import GrammerAnalyse.WrongAnalyse.A_FormatString;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 
 public class MidTableIndex {
@@ -12,6 +9,8 @@ public class MidTableIndex {
     public static ArrayList<MidTable> midTables = new ArrayList<>();
     public static Stack<VarTable> varTables = new Stack<>();
     public static Stack<FuncTable> funcTables = new Stack<>();
+    public static Stack<HashMap<Integer, Integer>> index = new Stack<>();
+    public static int level = 0;
 
     public static FuncTable getFuncTable(String name) {
         for (int i = funcTables.size() - 1; i >=0 ;i --) {
@@ -34,5 +33,33 @@ public class MidTableIndex {
     public static void addMidTables(MidTable midTable) {
         midTables.add(midTable);
         varNum += 1;
+    }
+
+    public static void pushToVarTable(VarTable table) {
+        varTables.push(table);
+    }
+
+    public static void pushToFuncTable(FuncTable funcTable) {
+        funcTables.push(funcTable);
+    }
+
+    public static void setIndex() {
+        int varSize = varTables.size();
+        HashMap<Integer, Integer> integerHashMap = new HashMap<>();
+        integerHashMap.put(level, varSize);
+        index.push(integerHashMap);
+        level += 1;
+    }
+
+    public static void popIndex() {
+        HashMap<Integer, Integer> integerHashMap = index.pop();
+        int varSize = 0;
+        for (int key : integerHashMap.keySet()) {
+            varSize = integerHashMap.get(key);
+        }
+        while (varTables.size() != varSize) {
+            varTables.pop();
+        }
+        level -= 1;
     }
 }

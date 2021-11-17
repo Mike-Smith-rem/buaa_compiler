@@ -19,6 +19,7 @@ public class Load_ConstExp extends CodeLoad {
             Load_AddExp exp = new Load_AddExp();
             exp.setSection(item);
             exp.setConstExp(true);
+            exp.analyse();
             value = exp.constValue;
         }
     }

@@ -14,13 +14,13 @@ public class InitVal extends GrammarInterface {
             section.add(LexMap.poll());
             //initVal
             if (!equals(LexMap.element(), "RBRACE")) {
-                InitVal initVal = new InitVal();
+                Exp initVal = new Exp();
                 initVal.analyse();
                 section.add(initVal);
                 //{, initVal}
                 while (equals(LexMap.element(), "COMMA")) {
                     section.add(LexMap.poll());
-                    initVal = new InitVal();
+                    initVal = new Exp();
                     initVal.analyse();
                     section.add(initVal);
                 }

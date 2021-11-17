@@ -18,6 +18,7 @@ public class Load_AddExp extends CodeLoad {
     public int constValue = 0;
     public Queue<MidInterface> sonQueue = new LinkedList<>();
     public Queue<String> opQueue = new LinkedList<>();
+    public static int varNum = 0;
 
     @Override
     public void setSection(Object item) {
@@ -48,7 +49,7 @@ public class Load_AddExp extends CodeLoad {
             midInterface = sonQueue.element();
         } else {
             midInterface = new MidTable();
-            ((MidTable) midInterface).name = "@AddExp" + varNum;
+            midInterface.name = "@AddExp" + varNum;
             varNum += 1;
             String op;
             MidInterface a;
@@ -66,6 +67,7 @@ public class Load_AddExp extends CodeLoad {
                     assert b != null;
                     midInterface.value = a.value + b.value;
                     System.out.println(midInterface.name + " = " + a.name + " + " + b.name);
+                    midCode.add(midInterface.name + " = " + a.name + " + " + b.name);
                 } else if (op.equals("-")) {
                     if (size == 0) {
                         a = sonQueue.poll();
@@ -77,6 +79,7 @@ public class Load_AddExp extends CodeLoad {
                     assert b != null;
                     midInterface.value = a.value - b.value;
                     System.out.println(midInterface.name + " = " + a.name + " - " + b.name);
+                    midCode.add(midInterface.name + " = " + a.name + " - " + b.name);
                 }
                 size += 1;
             }

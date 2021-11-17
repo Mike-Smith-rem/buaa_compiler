@@ -1,6 +1,8 @@
 package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
+import CodeLoad.Table.MidTableIndex;
+import CodeLoad.Table.VarTable;
 import GrammerAnalyse.GeneralAnalyse.ConstExp;
 import GrammerAnalyse.GeneralAnalyse.ConstInitVal;
 import GrammerAnalyse.GeneralAnalyse.Ident;
@@ -45,23 +47,46 @@ public class Load_ConstDef extends CodeLoad {
     @Override
     public void addSentence() {
         if (lev == 0) {
+            VarTable table = new VarTable();
+            table.name = name;
+            table.lev = lev;
+            table.setReturnValue(vars.get(0));
+            MidTableIndex.pushToVarTable(table);
             System.out.println("const int " + name + " = " + vars.get(0));
+            midCode.add("const int " + name + " = " + vars.get(0));
         }
         else if (lev == 1) {
+            VarTable table = new VarTable();
+            table.name = name;
+            table.lev = lev;
+            table.lev2_length = length[lev];
+            table.level = new ArrayList<>();
             System.out.println("const array int " + name + "[" + length[lev] + "]");
-            int i = 0;
-            for (int var : vars) {
-                System.out.println(name + "[" + i + "]" + " = " + var);
-                i += 1;
-            }
+            midCode.add("const array int " + name + "[" + length[lev] + "]");
+            addVarTable(table);
         } else if (lev == 2) {
+            VarTable table = new VarTable();
+            table.name = name;
+            table.lev = lev;
+            table.lev1_length = length[lev - 1];
+            table.lev2_length = length[lev];
+            table.level = new ArrayList<>();
             System.out.println("const array int " + name + "[" + length[lev - 1] + "]" +
                     "[" + length[lev] + "]");
-            int i = 0;
-            for (int var : vars) {
-                System.out.println(name + "[" + i + "]" + " = " + var);
-                i += 1;
-            }
+            midCode.add("const array int " + name + "[" + length[lev - 1] + "]" +
+                    "[" + length[lev] + "]");
+            addVarTable(table);
         }
+    }
+
+    private void addVarTable(VarTable table) {
+        int i = 0;
+        for (int var : vars) {
+            table.level.add(var);
+            System.out.println(name + "[" + i + "]" + " = " + var);
+            midCode.add(name + "[" + i + "]" + " = " + var);
+            i += 1;
+        }
+        MidTableIndex.pushToVarTable(table);
     }
 }

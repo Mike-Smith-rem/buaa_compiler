@@ -1,7 +1,6 @@
 package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
-import GrammerAnalyse.GeneralAnalyse.ConstDecl;
 import GrammerAnalyse.GeneralAnalyse.ConstDef;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class Load_ConstDecl extends CodeLoad {
 
     @Override
     public void setSection(Object item) {
-        this.section = (ArrayList) item;
+        super.setSection(item);
     }
 
     @Override

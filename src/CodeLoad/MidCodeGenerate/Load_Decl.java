@@ -3,8 +3,6 @@ package CodeLoad.MidCodeGenerate;
 import CodeLoad.CodeLoad;
 import GrammerAnalyse.GeneralAnalyse.ConstDecl;
 
-import java.util.ArrayList;
-
 public class Load_Decl extends CodeLoad {
     //Decl -> ConstDecl | VarDecl
 
@@ -20,12 +18,10 @@ public class Load_Decl extends CodeLoad {
             Load_ConstDecl constDecl = new Load_ConstDecl();
             constDecl.setSection(item);
             constDecl.analyse();
-            sentence.addAll(constDecl.sentence);
         } else {
             Load_VarDecl varDecl = new Load_VarDecl();
             varDecl.setSection(item);
             varDecl.analyse();
-            sentence.addAll(varDecl.sentence);
         }
     }
 }

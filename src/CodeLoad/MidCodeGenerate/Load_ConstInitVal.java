@@ -2,6 +2,7 @@ package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
 import GrammerAnalyse.GeneralAnalyse.ConstExp;
+import GrammerAnalyse.GeneralAnalyse.ConstInitVal;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,12 @@ public class Load_ConstInitVal extends CodeLoad {
                 constExp.setSection(item);
                 constExp.analyse();
                 values.add(constExp.value);
+            }
+            else if (item instanceof ConstInitVal) {
+                Load_ConstInitVal constInitVal = new Load_ConstInitVal();
+                constInitVal.setSection(item);
+                constInitVal.analyse();
+                values.addAll(constInitVal.values);
             }
         }
     }

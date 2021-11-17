@@ -1,10 +1,9 @@
 package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
-import CompilerLoad.CompilerLoad;
-import GrammerAnalyse.GeneralAnalyse.CompUnit;
 import GrammerAnalyse.GeneralAnalyse.Decl;
 import GrammerAnalyse.GeneralAnalyse.FuncDef;
+import GrammerAnalyse.GeneralAnalyse.MainFuncDef;
 
 import java.util.ArrayList;
 
@@ -12,7 +11,7 @@ public class Load_CompUnit extends CodeLoad {
 
     @Override
     public void setSection(Object item) {
-        this.section = (ArrayList) item;
+        super.setSection(item);
     }
 
     @Override
@@ -23,7 +22,7 @@ public class Load_CompUnit extends CodeLoad {
                 decl.setSection(item);
                 decl.analyse();
                 sentence.addAll(decl.sentence);
-            } else if (item instanceof FuncDef) {
+            } else if (item instanceof FuncDef || item instanceof MainFuncDef) {
                 Load_FuncDef funcDef = new Load_FuncDef();
                 funcDef.setSection(item);
                 funcDef.analyse();
