@@ -40,7 +40,7 @@ int func_5() {
 }
 
 int main() {
-    printf("19373686\n");
+    printf("学号\n");
     func_4();
     printf("func_4 complete: int func\n");
     func_5();
