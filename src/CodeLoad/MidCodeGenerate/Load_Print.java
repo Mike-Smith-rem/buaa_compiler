@@ -27,7 +27,7 @@ public class Load_Print extends CodeLoad {
 
     @Override
     public void setSection(Object item) {
-        super.setSection(item);
+        this.section = (ArrayList) item;
     }
 
     @Override
@@ -55,10 +55,12 @@ public class Load_Print extends CodeLoad {
         int i = 0;
         StringBuilder t = new StringBuilder();
         for (String s1 : str) {
-            System.out.println("write" + s1);
-            midCode.add("write" + s1);
-            System.out.println("write" + Exps.get(i).name);
-            midCode.add("write" + Exps.get(i).name);
+            System.out.println("#WRITEVAR " + s1);
+            midCode.add("#WRITEVAR " + s1);
+            if (i < Exps.size()) {
+                System.out.println("#WRITESTR " + Exps.get(i).name);
+                midCode.add("#WRITESTR " + Exps.get(i).name);
+            }
             i += 1;
         }
     }

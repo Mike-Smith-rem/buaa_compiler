@@ -20,6 +20,7 @@ public class Load_UnaryExp extends CodeLoad {
     public MidInterface midInterface;
     public int constValue = 0;
     public static int varNum = 0;
+    public static int funcNum = 0;
 
     public Load_PrimaryExp primary = null;
 
@@ -27,7 +28,7 @@ public class Load_UnaryExp extends CodeLoad {
     public String op;
 
     public String funcName = null;
-    public Load_FuncRParam rParam;
+    public Load_FuncRParam rParam = new Load_FuncRParam();
 
     public void setConstExp(boolean b) {
         isConstExp = b;
@@ -55,7 +56,7 @@ public class Load_UnaryExp extends CodeLoad {
                 unaryExp.setSection(item2);
                 unaryExp.setConstExp(isConstExp);
                 unaryExp.analyse();
-                op = getContent((HashMap<MyString, String>) item);
+                op = getContent((HashMap<MyString, String>) (((UnaryOp) item).section).get(0));
                 son = unaryExp;
             } else if (item instanceof Ident) {
                 for (int j = i; j < section.size(); j ++) {
@@ -90,39 +91,44 @@ public class Load_UnaryExp extends CodeLoad {
                     a = son.midInterface;
                     assert a != null;
                     midInterface.value = a.value;
-                    System.out.println(midInterface.name + " = " + "+" + a.name);
-                    midCode.add(midInterface.name + " = " + "+" + a.name);
+                    System.out.println(midInterface.name + " #REPLACE " + " + " + a.name);
+                    midCode.add(midInterface.name + " #REPLACE " + " + " + a.name);
                     break;
                 case "-":
                     a = son.midInterface;
                     assert a != null;
                     midInterface.value = -a.value;
-                    System.out.println(midInterface.name + " = " + "-" + a.name);
-                    midCode.add(midInterface.name + " = " + "-" + a.name);
+                    System.out.println(midInterface.name + " #REPLACE " + " - " + a.name);
+                    midCode.add(midInterface.name + " #REPLACE " + " - " + a.name);
                     break;
                 case "!":
                     a = son.midInterface;
                     assert a != null;
                     midInterface.answer = !a.answer;
-                    System.out.println(midInterface.name + " = " + "!" + a.name);
-                    midCode.add(midInterface.name + " = " + "!" + a.name);
+                    System.out.println(midInterface.name + " #REPLACE " + " ! " + a.name);
+                    midCode.add(midInterface.name + " #REPLACE " + " ! " + a.name);
                     break;
             }
         } else if (funcName != null) {
             midInterface = new MidInterface();
             midInterface.name = funcName + "(";
-            System.out.println("call " + funcName);
-            midCode.add("call " + funcName);
+            System.out.println("#CALL " + funcName);
+            midCode.add("#CALL " + funcName);
             for (MidInterface it : rParam.RParam) {
                 midInterface.name += it.name;
                 midInterface.name += ", ";
-                System.out.println("push " + it.name);
-                midCode.add("push " + it.name);
+                System.out.println("#PUSH " + it.name);
+                midCode.add("#PUSH " + it.name);
             }
             if (midInterface.name.endsWith(", ")) {
                 midInterface.name = midInterface.name.substring(0, midInterface.name.length() - 2);
             }
             midInterface.name += ")";
+            String TrueName = "@Func" + funcNum;
+            funcNum += 1;
+            System.out.println(TrueName + " #REPLACE " + midInterface.name);
+            midCode.add(TrueName + " #REPLACE " + midInterface.name);
+            midInterface.name = TrueName;
         }
     }
 }

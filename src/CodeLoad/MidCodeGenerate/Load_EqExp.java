@@ -63,8 +63,8 @@ public class Load_EqExp extends CodeLoad {
                     assert a != null;
                     assert b != null;
                     midInterface.answer = a.value == b.value;
-                    System.out.println(midInterface.name + " = " + a.name + " == " + b.name);
-                    midCode.add(midInterface.name + " = " + a.name + " == " + b.name);
+                    System.out.println(midInterface.name + " #REPLACE " + a.name + " == " + b.name);
+                    midCode.add(midInterface.name + " #REPLACE " + a.name + " == " + b.name);
                 } else if (op.equals("!=")) {
                     if (size == 0) {
                         a = sonQueue.poll();
@@ -75,8 +75,8 @@ public class Load_EqExp extends CodeLoad {
                     assert a != null;
                     assert b != null;
                     midInterface.answer = a.value != b.value;
-                    System.out.println(midInterface.name + " = " + a.name + " != " + b.name);
-                    midCode.add(midInterface.name + " = " + a.name + " != " + b.name);
+                    System.out.println(midInterface.name + " #REPLACE " + a.name + " != " + b.name);
+                    midCode.add(midInterface.name + " #REPLACE " + a.name + " != " + b.name);
                 }
                 size += 1;
             }

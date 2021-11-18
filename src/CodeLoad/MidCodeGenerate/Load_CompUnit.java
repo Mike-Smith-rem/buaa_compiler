@@ -5,7 +5,6 @@ import GrammerAnalyse.GeneralAnalyse.Decl;
 import GrammerAnalyse.GeneralAnalyse.FuncDef;
 import GrammerAnalyse.GeneralAnalyse.MainFuncDef;
 
-import java.util.ArrayList;
 
 public class Load_CompUnit extends CodeLoad {
 

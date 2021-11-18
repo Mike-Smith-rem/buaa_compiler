@@ -52,12 +52,17 @@ public class Load_Stmt extends CodeLoad {
                     exp.setSection(item2);
                     exp.analyse();
                     String expName = exp.midInterface.name;
-                    System.out.println(name + " = " + expName);
-                    midCode.add(name + " = " + expName);
+                    System.out.println(name + " #ASSIGN " + expName);
+                    midCode.add(name + " #ASSIGN " + expName);
                 } else {
-                    System.out.println("read " + name);
-                    midCode.add("read " + name);
+                    System.out.println("#READ " + name);
+                    midCode.add("#READ " + name);
                 }
+            }
+            if (item instanceof Exp) {
+                Load_Exp exp = new Load_Exp();
+                exp.setSection(item);
+                exp.analyse();
             }
             else if (item instanceof HashMap) {
                 String head = getContent((HashMap<MyString, String>) item);
@@ -68,75 +73,75 @@ public class Load_Stmt extends CodeLoad {
                         boolean elseFlag = false;
                         ifNum += 1;
                         MidTableIndex.setIndex();
-                        System.out.println("label_if" + tempIf);
-                        midCode.add("label_if" + tempIf);
+                        System.out.println("$label_if" + tempIf);
+                        midCode.add("$label_if" + tempIf);
                         for (Object it : section) {
                             if (it instanceof Cond) {
                                 Load_Cond cond = new Load_Cond();
                                 cond.setSection(it);
                                 cond.analyse();
                                 String name = cond.midInterface.name;
-                                System.out.println(name + " goto label_if_end" + tempIf);
-                                midCode.add(name + " goto label_if_end" + tempIf);
+                                System.out.println(name + " #GOTO $label_if_end" + tempIf);
+                                midCode.add(name + " #GOTO $label_if_end" + tempIf);
                             }
                             else if (it instanceof Stmt) {
                                 Load_Stmt stmt = new Load_Stmt();
                                 stmt.setSection(it);
                                 stmt.analyse();
-                                System.out.println("goto label_if_final" + tempIf);
-                                midCode.add("goto label_if_final" + tempIf);
+                                System.out.println("#GOTO $label_if_final" + tempIf);
+                                midCode.add("#GOTO $label_if_final" + tempIf);
                                 if (!elseFlag) {
-                                    System.out.println("label_if_end" + tempIf);
-                                    midCode.add("label_if_end" + tempIf);
+                                    System.out.println("$label_if_end" + tempIf);
+                                    midCode.add("$label_if_end" + tempIf);
                                 } else {
-                                    System.out.println("label_else_end" + tempIf);
-                                    midCode.add("label_else_end" + tempIf);
+                                    System.out.println("$label_else_end" + tempIf);
+                                    midCode.add("$label_else_end" + tempIf);
                                 }
                             }
                             else if (it instanceof HashMap
                                     && getContent((HashMap<MyString, String>) it).equals("else")) {
                                 elseFlag = true;
-                                System.out.println("label_else" + tempIf);
-                                midCode.add("label_else" + tempIf);
+                                System.out.println("$label_else" + tempIf);
+                                midCode.add("$label_else" + tempIf);
                             }
                         }
-                        System.out.println("label_if_final" + tempIf);
-                        midCode.add("label_if_final" + tempIf);
+                        System.out.println("$label_if_final" + tempIf);
+                        midCode.add("$label_if_final" + tempIf);
                         MidTableIndex.popIndex();
                         break;
                     case "while" :
                         whileNum += 1;
                         MidTableIndex.setIndex();
-                        System.out.println("label_while" + tempWhile);
-                        midCode.add("label_while" + tempWhile);
+                        System.out.println("$label_while" + tempWhile);
+                        midCode.add("$label_while" + tempWhile);
                         for (Object it : section) {
                             if (it instanceof Cond) {
                                 Load_Cond cond = new Load_Cond();
                                 cond.setSection(it);
                                 cond.analyse();
                                 String name = cond.midInterface.name;
-                                System.out.println(name + " goto label_while_end" + tempWhile);
-                                midCode.add(name + " goto label_while_end" + tempWhile);
+                                System.out.println(name + " #GOTO $label_while_end" + tempWhile);
+                                midCode.add(name + " #GOTO $label_while_end" + tempWhile);
                             }
                             else if (it instanceof Stmt) {
                                 Load_Stmt stmt = new Load_Stmt();
                                 stmt.setSection(it);
                                 stmt.analyse();
-                                System.out.println("goto label_while" + tempWhile);
-                                midCode.add("goto label_while" + tempWhile);
-                                System.out.println("label_while_end" + tempWhile);
-                                midCode.add("label_while_end" + tempWhile);
+                                System.out.println("#GOTO $label_while" + tempWhile);
+                                midCode.add("#GOTO $label_while" + tempWhile);
+                                System.out.println("$label_while_end" + tempWhile);
+                                midCode.add("$label_while_end" + tempWhile);
                             }
                         }
                         MidTableIndex.popIndex();
                         break;
                     case "break" :
-                        System.out.println("goto label_while_end" + (tempWhile - 1));
-                        midCode.add("goto label_while_end" + (tempWhile - 1));
+                        System.out.println("#GOTO $label_while_end" + (tempWhile - 1));
+                        midCode.add("#GOTO $label_while_end" + (tempWhile - 1));
                         break;
                     case "continue" :
-                        System.out.println("goto label_while" + (tempWhile - 1));
-                        midCode.add("goto label_while" + (tempWhile - 1));
+                        System.out.println("#GOTO $label_while" + (tempWhile - 1));
+                        midCode.add("#GOTO $label_while" + (tempWhile - 1));
                         break;
                     case "printf" :
                         Load_Print print = new Load_Print();
@@ -153,8 +158,8 @@ public class Load_Stmt extends CodeLoad {
                                 ex = exp.midInterface.name;
                             }
                         }
-                        System.out.println("return " + ex);
-                        midCode.add("return " + ex);
+                        System.out.println("#RETURN " + ex);
+                        midCode.add("#RETURN " + ex);
                 }
             }
         }

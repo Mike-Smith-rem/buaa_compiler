@@ -60,12 +60,12 @@ public class Load_LVal extends CodeLoad {
         else if (lev == 2) {
             MidInterface a = new MidInterface();
             a.name = "@TwoArray-" + varNum;
-            System.out.println(a.name + " = " + ts[lev - 1].name + " * " + t.lev2_length);
-            midCode.add(a.name + " = " + ts[lev - 1].name + " * " + t.lev2_length);
+            System.out.println(a.name + " #REPLACE " + ts[lev - 1].name + " * " + t.lev2_length);
+            midCode.add(a.name + " #REPLACE " + ts[lev - 1].name + " * " + t.lev2_length);
             MidInterface b = new MidInterface();
             b.name = "@TwoArray-" + varNum;
-            System.out.println(b.name + " = " + ts[lev].name + " + " + a.name);
-            midCode.add(b.name + " = " + ts[lev].name + " + " + a.name);
+            System.out.println(b.name + " #REPLACE " + ts[lev].name + " + " + a.name);
+            midCode.add(b.name + " #REPLACE " + ts[lev].name + " + " + a.name);
             varNum += 1;
             midInterface.name = t.name + "[" + b.name + "]";
             midInterface.value = t.getReturnValue(ts[lev - 1].value, ts[lev].value);

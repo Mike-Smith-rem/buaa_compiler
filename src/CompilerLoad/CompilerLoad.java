@@ -2,6 +2,7 @@ package CompilerLoad;
 
 import CodeLoad.CodeLoad;
 import CodeLoad.MidCodeGenerate.Load_CompUnit;
+import CodeLoad.PCodeGenerator.PCodeGenerate;
 import GrammerAnalyse.GeneralAnalyse.CompUnit;
 import GrammerAnalyse.GrammarInterface;
 import LexAnalyse.*;
@@ -75,9 +76,9 @@ public class CompilerLoad {
         return FileContent;
     }
 
-    static void OutputFileContent(String File) throws IOException {
+    static void OutputFileContent(String File, ArrayList<String> out) throws IOException {
         OutputStreamWriter owr = new OutputStreamWriter(new FileOutputStream(File));
-        for (String report : midCode) {
+        for (String report : out) {
             owr.write(report);
             owr.write("\n");
             owr.flush();
@@ -102,7 +103,11 @@ public class CompilerLoad {
             compUnit1.analyse();
             midCode = CodeLoad.midCode;
             String OutFile = "midCode.txt";
-            OutputFileContent(OutFile);
+            OutputFileContent(OutFile, midCode);
+            PCodeGenerate.midCode = midCode;
+            PCodeGenerate.run();
+            OutFile = "finalCode.txt";
+            OutputFileContent(OutFile, PCodeGenerate.codes);
         }
     }
 

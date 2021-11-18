@@ -52,8 +52,8 @@ public class Load_ConstDef extends CodeLoad {
             table.lev = lev;
             table.setReturnValue(vars.get(0));
             MidTableIndex.pushToVarTable(table);
-            System.out.println("const int " + name + " = " + vars.get(0));
-            midCode.add("const int " + name + " = " + vars.get(0));
+            System.out.println("const int " + name + " #ASSIGN " + vars.get(0));
+            midCode.add("const int " + name + " #ASSIGN " + vars.get(0));
         }
         else if (lev == 1) {
             VarTable table = new VarTable();
@@ -83,8 +83,8 @@ public class Load_ConstDef extends CodeLoad {
         int i = 0;
         for (int var : vars) {
             table.level.add(var);
-            System.out.println(name + "[" + i + "]" + " = " + var);
-            midCode.add(name + "[" + i + "]" + " = " + var);
+            System.out.println(name + "[" + i + "]" + " #ASSIGN " + var);
+            midCode.add(name + "[" + i + "]" + " #ASSIGN " + var);
             i += 1;
         }
         MidTableIndex.pushToVarTable(table);
