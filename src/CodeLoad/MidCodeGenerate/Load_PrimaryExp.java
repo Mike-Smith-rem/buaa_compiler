@@ -1,7 +1,7 @@
 package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
-import CodeLoad.Table.MidInterface;
+import CodeLoad.MidCodeGenerate.Table.MidInterface;
 import GrammerAnalyse.GeneralAnalyse.LVal;
 import GrammerAnalyse.GeneralAnalyse.Number;
 import LexAnalyse.MyString;

@@ -1,9 +1,8 @@
 package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
-import CodeLoad.Table.MidInterface;
-import CodeLoad.Table.MidTable;
-import GrammerAnalyse.GeneralAnalyse.LAndExp;
+import CodeLoad.MidCodeGenerate.Table.MidInterface;
+import CodeLoad.MidCodeGenerate.Table.MidTable;
 import GrammerAnalyse.GeneralAnalyse.RelExp;
 import LexAnalyse.MyString;
 

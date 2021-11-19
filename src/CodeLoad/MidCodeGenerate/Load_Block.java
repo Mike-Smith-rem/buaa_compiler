@@ -1,8 +1,8 @@
 package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
-import CodeLoad.Table.MidTableIndex;
-import CodeLoad.Table.VarTable;
+import CodeLoad.MidCodeGenerate.Table.MidTableIndex;
+import CodeLoad.MidCodeGenerate.Table.VarTable;
 import GrammerAnalyse.GeneralAnalyse.BlockItem;
 
 import java.util.ArrayList;

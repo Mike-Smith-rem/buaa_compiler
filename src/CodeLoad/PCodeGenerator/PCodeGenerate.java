@@ -70,14 +70,7 @@ public class PCodeGenerate {
         String[] str = string.split(" ");
         String ch;
         String _name = str[str.length - 1];
-        StringBuilder name = new StringBuilder();
-        for (int i = 0; i < _name.length(); i ++) {
-            if (_name.charAt(i) == '[') {
-                break;
-            }
-            name.append(_name.charAt(i));
-        }
-        ch = "#LoadParam " + name.toString() + " int";
+        ch = "#LoadParam " + _name;
         codes.add(ch);
     }
 
@@ -92,7 +85,33 @@ public class PCodeGenerate {
             }
             name.append(_name.charAt(i));
         }
-        ch = "#VarDef " + name.toString() + " int";
+        int lt = 0;
+        StringBuilder exp1 = new StringBuilder();
+        StringBuilder exp2 = new StringBuilder();
+        for (int i = 0; i < _name.length(); i ++) {
+            if (_name.charAt(i) == '[') {
+                lt += 1;
+            }
+            if (lt == 1) {
+                exp1.append(_name.charAt(i));
+            }
+            if (lt == 2) {
+                exp2.append(_name.charAt(i));
+            }
+        }
+        if (exp1.length() != 0 && exp2.length() != 0) {
+            exp1.deleteCharAt(0);
+            exp1.deleteCharAt(exp1.length() - 1);
+            exp2.deleteCharAt(0);
+            exp2.deleteCharAt(exp2.length() - 1);
+            ch = "#VarDef " + name.toString() + " int " + exp1.toString() + " " + exp2.toString();
+        } else if (exp1.length() != 0) {
+            exp1.deleteCharAt(0);
+            exp1.deleteCharAt(exp1.length() - 1);
+            ch = "#VarDef " + name.toString() + " int " +  exp1.toString();
+        } else {
+            ch = "#VarDef " + name.toString() + " int ";
+        }
         codes.add(ch);
     }
 
@@ -136,7 +155,7 @@ public class PCodeGenerate {
 
     public static void ReplaceGenerate(String string) {
         String[] str = string.split(" ");
-        String ch;
+        String ch = "";
         String targetName = str[0];
         String var1;
         String var2;
@@ -144,11 +163,13 @@ public class PCodeGenerate {
         var2 = str[str.length - 1];
         op = str[str.length - 2];
         if (str.length == 4) {
-            var1 = "0";
-        } else {
+            ch = "#Replace " + targetName + " " + op + " " + var2;
+        } else if (str.length == 5){
             var1 = str[str.length - 3];
+            ch = "#Replace " + targetName + " " + var1 + " " + op + " " + var2;
+        } else if (str.length == 3) {
+            ch = "#Replace " + targetName + " " + var2;
         }
-        ch = "#Replace " + targetName + " " + var1 + " " + op + " " + var2;
         codes.add(ch);
     }
 

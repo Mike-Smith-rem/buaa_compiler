@@ -1,7 +1,7 @@
 package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
-import CodeLoad.Table.MidInterface;
+import CodeLoad.MidCodeGenerate.Table.MidInterface;
 
 public class Load_Exp extends CodeLoad {
     public boolean isConstExp = false;

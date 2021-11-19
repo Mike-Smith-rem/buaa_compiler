@@ -1,8 +1,8 @@
 package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
-import CodeLoad.Table.MidInterface;
-import CodeLoad.Table.MidTable;
+import CodeLoad.MidCodeGenerate.Table.MidInterface;
+import CodeLoad.MidCodeGenerate.Table.MidTable;
 import GrammerAnalyse.GeneralAnalyse.LAndExp;
 
 import java.util.HashMap;

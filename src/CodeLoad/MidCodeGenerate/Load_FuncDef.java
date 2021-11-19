@@ -1,8 +1,8 @@
 package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
-import CodeLoad.Table.FuncTable;
-import CodeLoad.Table.VarTable;
+import CodeLoad.MidCodeGenerate.Table.FuncTable;
+import CodeLoad.MidCodeGenerate.Table.VarTable;
 import GrammerAnalyse.GeneralAnalyse.Block;
 import GrammerAnalyse.GeneralAnalyse.FuncFParams;
 import GrammerAnalyse.GeneralAnalyse.FuncType;

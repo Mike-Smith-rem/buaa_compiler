@@ -1,7 +1,7 @@
 package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
-import CodeLoad.Table.VarTable;
+import CodeLoad.MidCodeGenerate.Table.VarTable;
 import GrammerAnalyse.GeneralAnalyse.FuncFParam;
 
 import java.util.ArrayList;

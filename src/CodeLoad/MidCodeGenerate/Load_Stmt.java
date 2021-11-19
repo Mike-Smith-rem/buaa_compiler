@@ -1,11 +1,10 @@
 package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
-import CodeLoad.Table.MidTableIndex;
+import CodeLoad.MidCodeGenerate.Table.MidTableIndex;
 import GrammerAnalyse.GeneralAnalyse.Block;
 import GrammerAnalyse.GeneralAnalyse.Cond;
 import GrammerAnalyse.GeneralAnalyse.Exp;
-import GrammerAnalyse.GeneralAnalyse.FormatString;
 import GrammerAnalyse.GeneralAnalyse.LVal;
 import GrammerAnalyse.GeneralAnalyse.Stmt;
 import LexAnalyse.MyString;

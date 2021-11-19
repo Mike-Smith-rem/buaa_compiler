@@ -1,8 +1,9 @@
 package CodeLoad.MidCodeGenerate;
 
 import CodeLoad.CodeLoad;
-import CodeLoad.Table.MidInterface;
+import CodeLoad.MidCodeGenerate.Table.MidInterface;
 import GrammerAnalyse.GeneralAnalyse.Exp;
+import GrammerAnalyse.GeneralAnalyse.InitVal;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,11 @@ public class Load_InitVal extends CodeLoad {
                 exp.setConstExp(true);
                 exp.analyse();
                 Exps.add(exp.midInterface);
+            } else if (item instanceof InitVal) {
+                Load_InitVal initVal = new Load_InitVal();
+                initVal.setSection(item);
+                initVal.analyse();
+                Exps.addAll(initVal.Exps);
             }
         }
     }
