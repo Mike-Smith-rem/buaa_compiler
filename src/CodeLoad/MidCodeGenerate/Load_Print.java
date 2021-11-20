@@ -55,10 +55,8 @@ public class Load_Print extends CodeLoad {
         int i = 0;
         StringBuilder t = new StringBuilder();
         for (String s1 : str) {
-            System.out.println("#WRITEVAR " + s1);
             midCode.add("#WRITEVAR " + s1);
             if (i < Exps.size()) {
-                System.out.println("#WRITESTR " + Exps.get(i).name);
                 midCode.add("#WRITESTR " + Exps.get(i).name);
             }
             i += 1;

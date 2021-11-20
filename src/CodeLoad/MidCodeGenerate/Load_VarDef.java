@@ -54,11 +54,9 @@ public class Load_VarDef extends CodeLoad {
         if (lev == 0) {
             varTable.name = ident;
             varTable.lev = lev;
-            System.out.println("int " + ident);
             midCode.add("int " + ident);
             if (Exps.size() != 0) {
                 varTable.setReturnValue(Exps.get(0).value);
-                System.out.println(ident + " #ASSIGN " + Exps.get(0).name);
                 midCode.add(ident + " #ASSIGN " + Exps.get(0).name);
             }
         }
@@ -67,17 +65,14 @@ public class Load_VarDef extends CodeLoad {
             varTable.lev = lev;
             varTable.lev2_length = length[lev];
             varTable.level = new ArrayList<>();
-            System.out.println("array int " + ident + "[" + length[lev] + "]");
             midCode.add("array int " + ident + "[" + length[lev] + "]");
             loadArray();
         } else if (lev == 2) {
             varTable.name = ident;
             varTable.lev = lev;
-            varTable.lev2_length = length[lev - 1];
-            varTable.lev1_length = length[lev];
+            varTable.lev1_length = length[lev - 1];
+            varTable.lev2_length = length[lev];
             varTable.level = new ArrayList<>();
-            System.out.println("array int " + ident + "[" + length[lev - 1] + "]" +
-                    "[" + length[lev] + "]");
             midCode.add("array int " + ident + "[" + length[lev - 1] + "]" +
                     "[" + length[lev] + "]");
             loadArray();
@@ -90,7 +85,6 @@ public class Load_VarDef extends CodeLoad {
             int i = 0;
             for (MidInterface var : Exps) {
                 varTable.level.add(var.value);
-                System.out.println(ident + "[" + i + "]" + " #ASSIGN " + var.name);
                 midCode.add(ident + "[" + i + "]" + " #ASSIGN " + var.name);
                 i += 1;
             }

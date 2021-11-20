@@ -15,6 +15,11 @@ public class PCodeVarTable {
     public void loadValue(int index, int value) {
         values.put(index, value);
     }
+    
+    public void loadValue(int exp1, int exp2, int value) {
+        int index = exp1 * lev2 + exp2;
+        values.put(index, value);
+    }
 
     public int getValue() {
         return value;

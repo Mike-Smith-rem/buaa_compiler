@@ -134,22 +134,28 @@ public class PCodeGenerate {
     }
 
     public static void PrintGenerate(String string) {
+        string = string.replaceAll("#WRITEVAR", "#WriteVar");
+        string = string.replaceAll("#WRITESTR", "#WriteStr");
         codes.add(string);
     }
 
     public static void ReadGenerate(String string) {
+        string = string.replaceAll("#READ", "#Read");
         codes.add(string);
     }
 
     public static void FuncUseGenerate(String string) {
+        string = string.replaceAll("#CALL", "#Call");
         codes.add(string);
     }
 
     public static void PushRParamGenerate(String string) {
+        string = string.replaceAll("#PUSH", "#Push");
         codes.add(string);
     }
 
     public static void ReturnGenerate(String string) {
+        string = string.replaceAll("#RETURN", "#Return");
         codes.add(string);
     }
 

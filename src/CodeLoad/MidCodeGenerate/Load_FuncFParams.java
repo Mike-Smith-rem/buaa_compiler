@@ -33,15 +33,12 @@ public class Load_FuncFParams extends CodeLoad {
     public void addSentence() {
         for (VarTable t : params) {
             if (t.lev == 0) {
-                System.out.println("para int " + t.name);
                 midCode.add("para int " + t.name);
             }
             else if (t.lev == 1) {
-                System.out.println("para array int " + t.name + "[]");
                 midCode.add("para array int " + t.name + "[]");
             }
             else if (t.lev == 2) {
-                System.out.println("para array int " + t.name + "[]" + "[" + t.lev2_length + "]");
                 midCode.add("para array int " + t.name + "[]" + "[" + t.lev2_length + "]");
             }
         }

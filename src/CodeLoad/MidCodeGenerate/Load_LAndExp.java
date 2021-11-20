@@ -58,7 +58,6 @@ public class Load_LAndExp extends CodeLoad {
                 assert a != null;
                 assert b != null;
                 midInterface.answer = a.answer && b.answer;
-                System.out.println(midInterface.name + " #REPLACE " + a.name + " && " + b.name);
                 midCode.add(midInterface.name + " #REPLACE " + a.name + " && " + b.name);
                 size += 1;
             }

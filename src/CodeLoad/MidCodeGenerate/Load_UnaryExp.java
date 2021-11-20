@@ -91,33 +91,28 @@ public class Load_UnaryExp extends CodeLoad {
                     a = son.midInterface;
                     assert a != null;
                     midInterface.value = a.value;
-                    System.out.println(midInterface.name + " #REPLACE " + " + " + a.name);
-                    midCode.add(midInterface.name + " #REPLACE " + " + " + a.name);
+                    midCode.add(midInterface.name + " #REPLACE" + " + " + a.name);
                     break;
                 case "-":
                     a = son.midInterface;
                     assert a != null;
                     midInterface.value = -a.value;
-                    System.out.println(midInterface.name + " #REPLACE " + " - " + a.name);
-                    midCode.add(midInterface.name + " #REPLACE " + " - " + a.name);
+                    midCode.add(midInterface.name + " #REPLACE" + " - " + a.name);
                     break;
                 case "!":
                     a = son.midInterface;
                     assert a != null;
                     midInterface.answer = !a.answer;
-                    System.out.println(midInterface.name + " #REPLACE " + " ! " + a.name);
-                    midCode.add(midInterface.name + " #REPLACE " + " ! " + a.name);
+                    midCode.add(midInterface.name + " #REPLACE" + " ! " + a.name);
                     break;
             }
         } else if (funcName != null) {
             midInterface = new MidInterface();
             midInterface.name = funcName + "(";
-            System.out.println("#CALL " + funcName);
             midCode.add("#CALL " + funcName);
             for (MidInterface it : rParam.RParam) {
                 midInterface.name += it.name;
                 midInterface.name += ", ";
-                System.out.println("#PUSH " + it.name);
                 midCode.add("#PUSH " + it.name);
             }
             if (midInterface.name.endsWith(", ")) {
@@ -126,7 +121,6 @@ public class Load_UnaryExp extends CodeLoad {
             midInterface.name += ")";
             String TrueName = "@Func" + funcNum;
             funcNum += 1;
-            System.out.println(TrueName + " #REPLACE " + midInterface.name);
             midCode.add(TrueName + " #REPLACE " + midInterface.name);
             midInterface.name = TrueName;
         }

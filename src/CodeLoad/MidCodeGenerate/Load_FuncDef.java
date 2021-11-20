@@ -34,7 +34,6 @@ public class Load_FuncDef extends CodeLoad {
             else if (item instanceof Ident) {
                 funcName = ((Ident) item).getIdent();
                 funcTable.name = funcName;
-                System.out.println(funcType + " " + funcName + "()");
                 midCode.add(funcType + " " + funcName + "()");
             }
             else if ((item instanceof HashMap
@@ -42,7 +41,6 @@ public class Load_FuncDef extends CodeLoad {
                 funcType = "int";
                 funcName = "main";
                 funcTable.name = funcName;
-                System.out.println(funcType + " " +funcName + "()");
                 midCode.add(funcType + " " +funcName + "()");
             }
             else if (item instanceof FuncFParams) {

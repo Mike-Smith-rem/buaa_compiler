@@ -66,7 +66,6 @@ public class Load_AddExp extends CodeLoad {
                     assert a != null;
                     assert b != null;
                     midInterface.value = a.value + b.value;
-                    System.out.println(midInterface.name + " #REPLACE " + a.name + " + " + b.name);
                     midCode.add(midInterface.name + " #REPLACE " + a.name + " + " + b.name);
                 } else if (op.equals("-")) {
                     if (size == 0) {
@@ -78,7 +77,6 @@ public class Load_AddExp extends CodeLoad {
                     assert a != null;
                     assert b != null;
                     midInterface.value = a.value - b.value;
-                    System.out.println(midInterface.name + " #REPLACE " + a.name + " - " + b.name);
                     midCode.add(midInterface.name + " #REPLACE " + a.name + " - " + b.name);
                 }
                 size += 1;

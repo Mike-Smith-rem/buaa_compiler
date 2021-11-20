@@ -63,7 +63,6 @@ public class Load_RelExp extends CodeLoad {
                         assert a != null;
                         assert b != null;
                         midInterface.answer = a.value < b.value;
-                        System.out.println(midInterface.name + " #REPLACE " + a.name + " < " + b.name);
                         midCode.add(midInterface.name + " #REPLACE " + a.name + " < " + b.name);
                         break;
                     case ">":
@@ -76,7 +75,6 @@ public class Load_RelExp extends CodeLoad {
                         assert a != null;
                         assert b != null;
                         midInterface.answer = a.value > b.value;
-                        System.out.println(midInterface.name + " #REPLACE " + a.name + " > " + b.name);
                         midCode.add(midInterface.name + " #REPLACE " + a.name + " > " + b.name);
                         break;
                     case "<=":
@@ -89,7 +87,6 @@ public class Load_RelExp extends CodeLoad {
                         assert a != null;
                         assert b != null;
                         midInterface.answer = a.value <= b.value;
-                        System.out.println(midInterface.name + " #REPLACE " + a.name + " <= " + b.name);
                         midCode.add(midInterface.name + " #REPLACE " + a.name + " <= " + b.name);
                         break;
                     case ">=":
@@ -102,7 +99,6 @@ public class Load_RelExp extends CodeLoad {
                         assert a != null;
                         assert b != null;
                         midInterface.answer = a.value >= b.value;
-                        System.out.println(midInterface.name + " #REPLACE " + a.name + " >= " + b.name);
                         midCode.add(midInterface.name + " #REPLACE " + a.name + " >= " + b.name);
                         break;
                 }
