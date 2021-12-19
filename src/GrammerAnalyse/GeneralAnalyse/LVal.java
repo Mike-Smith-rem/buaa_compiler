@@ -2,14 +2,14 @@ package GrammerAnalyse.GeneralAnalyse;
 
 import CompilerLoad.CompilerLoad;
 import GrammerAnalyse.GrammarInterface;
-import GrammerAnalyse.Table.Table;
 import GrammerAnalyse.Table.TableIndex;
+import GrammerAnalyse.Table.VarTable;
 import GrammerAnalyse.WrongAnalyse.C_Undefine;
 import GrammerAnalyse.WrongAnalyse.K_NoRBrack;
 
 public class LVal extends GrammarInterface {
     int del_lev = 0;
-    Table param = null;
+    VarTable param = null;
     //LVal -> Ident {'[' Exp ']'}
 
     @Override
@@ -24,7 +24,15 @@ public class LVal extends GrammarInterface {
         undefine.check(identF.getIdent(), CompilerLoad.current_line);
 
         if (!undefine.wrong) {
-            param = TableIndex.searchTable(identF.getIdent());
+            if (TableIndex.cur != null) {
+                param = TableIndex.cur.getVarTable(identF.ident);
+            } else {
+                for (VarTable varTable : TableIndex.globalVarTables) {
+                    if (varTable.name.equals(identF.ident)) {
+                        param = varTable;
+                    }
+                }
+            }
         }
         //[exp]
         while (equals(LexMap.element(), "LBRACK")) {
@@ -43,5 +51,9 @@ public class LVal extends GrammarInterface {
             }
             del_lev += 1;
         }
+
+//        if(!undefine.wrong) {
+//            undefine.checkDimen(identF.ident, del_lev, CompilerLoad.current_line);
+//        }
     }
 }

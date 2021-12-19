@@ -7,8 +7,4 @@ public class FuncTable extends MidInterface{
     public String type;
     public ArrayList<VarTable> FParams = new ArrayList<>();
     public int value;
-
-    public void setReturnValue(int returnValue) {
-        this.value = returnValue;
-    }
 }

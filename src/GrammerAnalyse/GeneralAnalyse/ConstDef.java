@@ -2,9 +2,7 @@ package GrammerAnalyse.GeneralAnalyse;
 
 import CompilerLoad.CompilerLoad;
 import GrammerAnalyse.GrammarInterface;
-import GrammerAnalyse.Table.Table;
 import GrammerAnalyse.WrongAnalyse.B_Rename;
-import GrammerAnalyse.WrongAnalyse.I_NoSemicn;
 import GrammerAnalyse.WrongAnalyse.K_NoRBrack;
 
 public class ConstDef extends GrammarInterface {
@@ -23,6 +21,7 @@ public class ConstDef extends GrammarInterface {
 
         B_Rename rename = new B_Rename();
         rename.check(ident, CompilerLoad.current_line);
+
 
         //[ constExp ]
         while (equals(LexMap.element(), "LBRACK")) {

@@ -3,6 +3,7 @@ package GrammerAnalyse.GeneralAnalyse;
 import GrammerAnalyse.GrammarInterface;
 
 public class Exp extends GrammarInterface {
+    public int lev = 0;
 
 
     @Override
@@ -10,5 +11,6 @@ public class Exp extends GrammarInterface {
         AddExp addExp = new AddExp();
         addExp.analyse();
         section.add(addExp);
+        lev = addExp.lev;
     }
 }

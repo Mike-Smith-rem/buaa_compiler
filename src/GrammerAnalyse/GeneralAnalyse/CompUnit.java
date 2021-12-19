@@ -1,8 +1,7 @@
 package GrammerAnalyse.GeneralAnalyse;
 
-import CompilerLoad.CompilerLoad;
 import GrammerAnalyse.GrammarInterface;
-import GrammerAnalyse.WrongAnalyse.G_LackReturn;
+import GrammerAnalyse.Table.TableIndex;
 import LexAnalyse.MyString;
 import java.util.HashMap;
 
@@ -10,12 +9,15 @@ public class CompUnit extends GrammarInterface {
 
     @Override
     public void analyse() {
+        TableIndex.global = true;
         declAnalyse();
+        TableIndex.global = false;
         funcAnalyse();
         mainAnalyse();
     }
 
     public void declAnalyse() {
+        //获取前三个字符进行判断
         while (true) {
             HashMap<MyString, String> firstToken = null;
             HashMap<MyString, String> secondToken = null;
@@ -30,8 +32,7 @@ public class CompUnit extends GrammarInterface {
                     break;
                 }
             }
-
-            assert firstToken != null && secondToken != null && thirdToken != null;
+            assert firstToken != null && secondToken != null;
             if (equals(firstToken, "CONSTTK")) {
                 Decl decl = new Decl();
                 section.add(decl);
@@ -39,7 +40,7 @@ public class CompUnit extends GrammarInterface {
             }
             else if (equals(firstToken, "INTTK")
                     && equals(secondToken, "IDENFR")
-                    && !equals(thirdToken, "LPARENT")) {
+                    && (thirdToken == null || !equals(thirdToken, "LPARENT"))) {
                 Decl decl = new Decl();
                 section.add(decl);
                 decl.analyse();
@@ -48,7 +49,6 @@ public class CompUnit extends GrammarInterface {
                 return;
             }
         }
-
     }
 
     public void funcAnalyse() {
@@ -72,9 +72,6 @@ public class CompUnit extends GrammarInterface {
                 FuncDef funcDef = new FuncDef();
                 section.add(funcDef);
                 funcDef.analyse();
-
-                G_LackReturn g_lackReturn = new G_LackReturn();
-                g_lackReturn.check(CompilerLoad.current_line);
             }
         }
     }
@@ -84,8 +81,6 @@ public class CompUnit extends GrammarInterface {
         section.add(mainFuncDef);
         mainFuncDef.analyse();
 
-        G_LackReturn g_lackReturn = new G_LackReturn();
-        g_lackReturn.check(CompilerLoad.current_line);
     }
 
 

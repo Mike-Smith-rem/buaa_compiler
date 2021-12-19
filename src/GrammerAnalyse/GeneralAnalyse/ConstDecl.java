@@ -2,13 +2,10 @@ package GrammerAnalyse.GeneralAnalyse;
 
 import CompilerLoad.CompilerLoad;
 import GrammerAnalyse.GrammarInterface;
-import GrammerAnalyse.Table.Table;
 import GrammerAnalyse.Table.TableIndex;
+import GrammerAnalyse.Table.VarTable;
+import GrammerAnalyse.WrongAnalyse.B_Rename;
 import GrammerAnalyse.WrongAnalyse.I_NoSemicn;
-import LexAnalyse.MyString;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ConstDecl extends GrammarInterface {
     //ConstDecl -> const BType ConstDef@addTable {, ConstDef@addTable } ;
@@ -27,11 +24,16 @@ public class ConstDecl extends GrammarInterface {
         constDef.analyse();
         section.add(constDef);
         //@addTable
-        Table element = new Table();
-        element.specie = "const";
-        element.name = constDef.getIdent();
-        element.lev = constDef.getLev();
-        TableIndex.tables.push(element);
+        VarTable varTable = new VarTable();
+        varTable.isConst = true;
+        varTable.name = constDef.ident;
+        varTable.lev = constDef.lev;
+
+        if (TableIndex.global) {
+            TableIndex.globalVarTables.add(varTable);
+        } else {
+            TableIndex.cur.blockTableStack.peek().varTables.add(varTable);
+        }
 
         //{, ConstDef}
         while (equals(LexMap.element(), "COMMA")) {
@@ -39,11 +41,17 @@ public class ConstDecl extends GrammarInterface {
             constDef = new ConstDef();
             constDef.analyse();
             section.add(constDef);
-            element = new Table();
-            element.specie = "const";
-            element.name = constDef.getIdent();
-            element.lev = constDef.getLev();
-            TableIndex.tables.push(element);
+
+            varTable = new VarTable();
+            varTable.isConst = true;
+            varTable.name = constDef.ident;
+            varTable.lev = constDef.lev;
+
+            if (TableIndex.global) {
+                TableIndex.globalVarTables.add(varTable);
+            } else {
+                TableIndex.cur.blockTableStack.peek().varTables.add(varTable);
+            }
         }
         //;
         if (!equals(LexMap.element(), "SEMICN")) {

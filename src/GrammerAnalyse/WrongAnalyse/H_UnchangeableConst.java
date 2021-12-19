@@ -1,22 +1,42 @@
 package GrammerAnalyse.WrongAnalyse;
 
-import GrammerAnalyse.Table.Table;
+import GrammerAnalyse.Table.BlockTable;
+import GrammerAnalyse.Table.FuncTable;
+import GrammerAnalyse.Table.TableIndex;
+import GrammerAnalyse.Table.VarTable;
 import GrammerAnalyse.WrongFormatAnalyse;
 
 public class H_UnchangeableConst extends WrongFormatAnalyse {
     public void check(String name, int current_line) {
-        Table var = getName(name);
-        if (var.specie.equals("const")) {
-            errorReport.add(current_line + " h\n");
+        VarTable varTable = getVarTable(name);
+        wrong = false;
+        if (varTable == null) {
+            errorReport.add(current_line + " c");
+        } else {
+            if (varTable.isConst) {
+                wrong = true;
+                errorReport.add(current_line + " h");
+            }
         }
     }
 
-    public Table getName(String name) {
-        for (int i = tables.size() - 1; i >= 0; i--) {
-            if (tables.get(i).name.equals(name) &&
-                    (tables.get(i).specie.equals("var")
-                            || tables.get(i).specie.equals("const"))) {
-                return tables.get(i);
+    public VarTable getVarTable(String name) {
+        FuncTable funcTable = TableIndex.cur;
+        for (int i = funcTable.blockTableStack.size() - 1; i >= 0; i--) {
+            for (VarTable varTable : funcTable.blockTableStack.get(i).varTables) {
+                if (varTable.name.equals(name)) {
+                    return varTable;
+                }
+            }
+        }
+        for (VarTable varTable : funcTable.FParams) {
+            if (varTable.name.equals(name)) {
+                return varTable;
+            }
+        }
+        for (VarTable varTable : TableIndex.globalVarTables) {
+            if (varTable.name.equals(name)) {
+                return varTable;
             }
         }
         return null;

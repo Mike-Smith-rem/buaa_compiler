@@ -4,6 +4,7 @@ import GrammerAnalyse.GrammarInterface;
 
 public class PrimaryExp extends GrammarInterface {
     //PrimaryExp -> (Exp) | LVal | Number
+    public int lev = 0;
 
     @Override
     public void analyse() {
@@ -17,16 +18,21 @@ public class PrimaryExp extends GrammarInterface {
             section.add(exp);
             //)
             section.add(LexMap.poll());
+            lev = exp.lev;
         }
         else if (equals(LexMap.element(), "INTCON")) {
             Number number = new Number();
             number.analyse();
             section.add(number);
+            lev = 0;
         }
-        else {
+        else if (equals(LexMap.element(), "IDENFR")){
             LVal lVal = new LVal();
             lVal.analyse();
             section.add(lVal);
+            if (lVal.param != null) {
+                lev = lVal.param.lev - lVal.del_lev;
+            }
         }
     }
 }

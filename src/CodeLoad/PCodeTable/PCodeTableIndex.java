@@ -1,74 +1,37 @@
 package CodeLoad.PCodeTable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
 public class PCodeTableIndex {
-    public static Stack<PCodeVarTable> varTables = new Stack<>();
-    public static Stack<PCodeFuncTable> funcTables = new Stack<>();
-    public static ArrayList<PCodeMidTable> midTables = new ArrayList<>();
-    public static int lev = 0;
-    public static Stack<HashMap<Integer, Integer>> index = new Stack<>();
-
-    public static PCodeVarTable getVarTable(String name) {
-        for (int i = varTables.size() - 1; i >= 0; i--) {
-            if (varTables.get(i).name.equals(name)) {
-                return varTables.get(i);
-            }
-        }
-        return null;
-    }
+    public static Stack<PCodeFuncBlock> funcBlockStack = new Stack<>();
+    public static HashMap<String, PCodeFuncTable> funcTableHashMap = new HashMap<>();
+    public static HashMap<String, Integer> labelQuickFetch = new HashMap<>();
+    public static PCodeBlock globalVarTable = new PCodeBlock(null, 0);
 
     public static PCodeFuncTable getFuncTable(String name) {
-        for (int i = funcTables.size() - 1; i >=0 ;i --) {
-            if (funcTables.get(i).name.equals(name)) {
-                return funcTables.get(i);
-            }
-        }
-        return null;
+        return funcTableHashMap.get(name);
     }
 
-    public static PCodeMidTable getMidTable(String name) {
-        for (int i = midTables.size() - 1; i >= 0; i--) {
-            if (midTables.get(i).name.equals(name)) {
-                return midTables.get(i);
-            }
-        }
-        return null;
+    public static int getLabelLine(String name) {
+        return labelQuickFetch.get(name);
     }
 
-    public static void pushVarTable(PCodeVarTable varTable) {
-        varTables.push(varTable);
+    public static void pushLabelQuick(String name, int line) {
+        labelQuickFetch.put(name, line);
     }
 
     public static void pushFuncTable(PCodeFuncTable funcTable) {
-        funcTables.push(funcTable);
+        funcTableHashMap.put(funcTable.name, funcTable);
     }
 
-    public static void pushMidTable(PCodeMidTable midTable) {
-        midTables.add(midTable);
+    public static void createNewFuncBlock(PCodeFuncTable funcTable) {
+        PCodeFuncBlock funcBlock = new PCodeFuncBlock(funcTable);
+        funcBlockStack.push(funcBlock);
     }
 
-
-    public static void setIndex() {
-        int varSize = varTables.size();
-        HashMap<Integer, Integer> integerHashMap = new HashMap<>();
-        integerHashMap.put(lev, varSize);
-        index.push(integerHashMap);
-        lev += 1;
-    }
-
-    public static void popIndex() {
-        HashMap<Integer, Integer> integerHashMap = index.pop();
-        int varSize = 0;
-        for (int key : integerHashMap.keySet()) {
-            varSize = integerHashMap.get(key);
-        }
-        while (varTables.size() != varSize) {
-            varTables.pop();
-        }
-        lev -= 1;
+    public static void deleteFuncBlock() {
+        funcBlockStack.pop();
     }
 
 }

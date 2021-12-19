@@ -21,14 +21,14 @@ public class PCodeGenerate {
         if (mid_code.startsWith("#WRITE")) {
             PrintGenerate(mid_code);
         } else if (mid_code.startsWith("array int")
-                || mid_code.startsWith("const")) {
+                || mid_code.startsWith("const ")) {
             VarDefGenerate(mid_code);
-        } else if (mid_code.startsWith("int") && !mid_code.endsWith(")")) {
+        } else if (mid_code.startsWith("int ") && !mid_code.endsWith(")")) {
             VarDefGenerate(mid_code);
-        } else if (mid_code.startsWith("int") && mid_code.endsWith(")")
-                || mid_code.startsWith("void")) {
+        } else if (mid_code.startsWith("int ") && mid_code.endsWith(")")
+                || mid_code.startsWith("void ")) {
             FuncDefGenerate(mid_code);
-        } else if (mid_code.startsWith("para")) {
+        } else if (mid_code.startsWith("para ")) {
             FuncLoadParam(mid_code);
         } else if (mid_code.startsWith("#READ")) {
             ReadGenerate(mid_code);
@@ -42,6 +42,8 @@ public class PCodeGenerate {
             ReturnGenerate(mid_code);
         } else if (mid_code.startsWith("$")) {
             LabelGenerate(mid_code);
+        } else if (mid_code.startsWith("#Case")) {
+            codes.add(mid_code);
         } else {
             String[] a = mid_code.split(" ");
             String temp = "";
@@ -110,7 +112,7 @@ public class PCodeGenerate {
             exp1.deleteCharAt(exp1.length() - 1);
             ch = "#VarDef " + name.toString() + " int " +  exp1.toString();
         } else {
-            ch = "#VarDef " + name.toString() + " int ";
+            ch = "#VarDef " + name.toString() + " int";
         }
         codes.add(ch);
     }
@@ -136,6 +138,7 @@ public class PCodeGenerate {
     public static void PrintGenerate(String string) {
         string = string.replaceAll("#WRITEVAR", "#WriteVar");
         string = string.replaceAll("#WRITESTR", "#WriteStr");
+        //string = string.replace("\\n", "\n");
         codes.add(string);
     }
 

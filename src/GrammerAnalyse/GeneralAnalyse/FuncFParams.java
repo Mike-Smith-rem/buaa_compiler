@@ -1,15 +1,17 @@
 package GrammerAnalyse.GeneralAnalyse;
 
+import CompilerLoad.CompilerLoad;
 import GrammerAnalyse.GrammarInterface;
-import GrammerAnalyse.Table.Table;
+import GrammerAnalyse.Table.VarTable;
+import GrammerAnalyse.WrongAnalyse.B_Rename;
 
 import java.util.ArrayList;
 
 public class FuncFParams extends GrammarInterface {
     //FuncFParams → FuncFParam { ',' FuncFParam }
-    ArrayList<Table> params = new ArrayList<>();
+    ArrayList<VarTable> params = new ArrayList<>();
 
-    public ArrayList<Table> getParams() {
+    public ArrayList<VarTable> getParams() {
         return params;
     }
 
@@ -18,7 +20,7 @@ public class FuncFParams extends GrammarInterface {
         //FuncFParam
         FuncFParam funcFParam = new FuncFParam();
         funcFParam.analyse();
-        params.add(funcFParam.getTable());
+        params.add(funcFParam.getVarTable());
         section.add(funcFParam);
         //
         while (equals(LexMap.element(), "COMMA")) {
@@ -26,8 +28,11 @@ public class FuncFParams extends GrammarInterface {
             section.add(LexMap.poll());
             funcFParam = new FuncFParam();
             funcFParam.analyse();
-            params.add(funcFParam.getTable());
+
+
+            params.add(funcFParam.getVarTable());
             section.add(funcFParam);
+
         }
     }
 }

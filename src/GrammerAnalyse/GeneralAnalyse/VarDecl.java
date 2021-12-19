@@ -2,11 +2,10 @@ package GrammerAnalyse.GeneralAnalyse;
 
 import CompilerLoad.CompilerLoad;
 import GrammerAnalyse.GrammarInterface;
-import GrammerAnalyse.Table.Table;
 import GrammerAnalyse.Table.TableIndex;
+import GrammerAnalyse.Table.VarTable;
+import GrammerAnalyse.WrongAnalyse.B_Rename;
 import GrammerAnalyse.WrongAnalyse.I_NoSemicn;
-
-import java.util.ArrayList;
 
 public class VarDecl extends GrammarInterface {
     //VarDecl -> BType VarDef {, VarDef} ;
@@ -24,12 +23,16 @@ public class VarDecl extends GrammarInterface {
         varDef.analyse();
         section.add(varDef);
 
-        Table element = new Table();
-        element.specie = "var";
-        element.name = varDef.getIdent();
-        element.lev = varDef.getLev();
-        TableIndex.tables.push(element);
+        VarTable varTable = new VarTable();
+        varTable.isConst = false;
+        varTable.name = varDef.ident;
+        varTable.lev = varDef.lev;
 
+        if (TableIndex.global) {
+            TableIndex.globalVarTables.add(varTable);
+        } else {
+            TableIndex.cur.blockTableStack.peek().varTables.add(varTable);
+        }
         //{, VarDef}
         while (equals(LexMap.element(), "COMMA")) {
             section.add(LexMap.poll());
@@ -37,11 +40,16 @@ public class VarDecl extends GrammarInterface {
             varDef = new VarDef();
             varDef.analyse();
             section.add(varDef);
-            element = new Table();
-            element.specie = "var";
-            element.name = varDef.getIdent();
-            element.lev = varDef.getLev();
-            TableIndex.tables.push(element);
+            varTable = new VarTable();
+            varTable.isConst = false;
+            varTable.name = varDef.ident;
+            varTable.lev = varDef.lev;
+
+            if (TableIndex.global) {
+                TableIndex.globalVarTables.add(varTable);
+            } else {
+                TableIndex.cur.blockTableStack.peek().varTables.add(varTable);
+            }
         }
         //;
         if (!equals(LexMap.element(), "SEMICN")) {

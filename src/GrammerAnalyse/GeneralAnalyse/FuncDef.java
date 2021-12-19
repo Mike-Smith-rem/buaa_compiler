@@ -2,9 +2,11 @@ package GrammerAnalyse.GeneralAnalyse;
 
 import CompilerLoad.CompilerLoad;
 import GrammerAnalyse.GrammarInterface;
-import GrammerAnalyse.Table.Table;
+import GrammerAnalyse.Table.BlockTable;
+import GrammerAnalyse.Table.FuncTable;
 import GrammerAnalyse.Table.TableIndex;
 import GrammerAnalyse.WrongAnalyse.B_Rename;
+import GrammerAnalyse.WrongAnalyse.G_LackReturn;
 import GrammerAnalyse.WrongAnalyse.J_NoRParent;
 import LexAnalyse.MyString;
 
@@ -28,36 +30,22 @@ public class FuncDef extends GrammarInterface {
         section.add(identF);
 
         B_Rename rename = new B_Rename();
-        rename.check(identF.getIdent(), CompilerLoad.current_line);
+        rename.checkFunc(identF.getIdent(), CompilerLoad.current_line);
 
         //( ... )
         section.add(LexMap.poll());
 
-        Table element = new Table();
-        element.specie = "func";
-        element.name = identF.getIdent();
-        element.funcType = type.getType();
+        FuncTable funcTable = new FuncTable();
+        funcTable.name = identF.ident;
+        funcTable.type = type.getType();
+        TableIndex.cur = funcTable;
 
-        HashMap<MyString, String> firstToken = null;
-        HashMap<MyString, String> secondToken = null;
-        int time = 0;
-        for (HashMap<MyString, String> key : LexMap) {
-            firstToken = time == 0 ? key : firstToken;
-            secondToken = time == 1 ? key : secondToken;
-            time ++;
-            if (time == 2) {
-                break;
-            }
-        }
         //FuncFParams
-        if (!equals(LexMap.element(), "RPARENT")) {
-            assert secondToken != null;
-            if (!equals(secondToken, "LBRACE")) {
-                FuncFParams funcFParams = new FuncFParams();
-                funcFParams.analyse();
-                element.FParams = funcFParams.getParams();
-                section.add(funcFParams);
-            }
+        if (equals(LexMap.element(), "INTTK")) {
+            FuncFParams funcFParams = new FuncFParams();
+            funcTable.FParams = funcFParams.getParams();
+            funcFParams.analyse();
+            section.add(funcFParams);
         }
 
         //)
@@ -68,13 +56,16 @@ public class FuncDef extends GrammarInterface {
             section.add(LexMap.poll());
         }
 
-        TableIndex.tables.push(element);
+        TableIndex.funcTables.add(funcTable);
 
         //block
         Block block = new Block();
-        block.analyse();
         section.add(block);
+        block.analyse();
 
+
+        G_LackReturn g_lackReturn = new G_LackReturn();
+        g_lackReturn.check(block.endLine);
     }
 
 }

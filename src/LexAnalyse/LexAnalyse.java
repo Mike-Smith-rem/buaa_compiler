@@ -68,9 +68,10 @@ public class LexAnalyse {
             /*
             * 找到//注释结构
             * */
-            if (words[i] == '/'
-                    && i + 1 < words.length
-                    && words[i + 1] == '/') {
+            //  */
+            /*    */
+            if (words[i] == '/' && i + 1 <
+                    words.length && words[i + 1] == '/') {
                 break;
             }
             /*

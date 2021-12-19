@@ -23,12 +23,21 @@ public class Load_LAndExp extends CodeLoad {
 
     @Override
     public void analyse() {
+        int num = 0;
+        for (Object item : section) {
+            if (item instanceof EqExp) {
+                num += 1;
+            }
+        }
         for (Object item : section) {
             if (item instanceof EqExp) {
                 Load_EqExp exp = new Load_EqExp();
                 exp.setSection(item);
                 exp.analyse();
                 sonQueue.offer(exp.midInterface);
+                if (num > 1) {
+                    midCode.add("#Case0 " + exp.midInterface.name + " @LAndExp" + varNum);
+                }
             } else if (item instanceof HashMap) {
                 opQueue.offer("&&");
             }

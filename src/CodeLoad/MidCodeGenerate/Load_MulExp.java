@@ -13,14 +13,20 @@ import java.util.Queue;
 public class Load_MulExp extends CodeLoad {
     //MulExp -> UnaryExp | */%
     public boolean isConstExp = false;
+    public boolean isInFunc = false;
     public MidInterface midInterface;
     public int constValue = 0;
     public Queue<MidInterface> sonQueue = new LinkedList<>();
     public Queue<String> opQueue = new LinkedList<>();
     public static int varNum = 0;
+    public int flag = 0;
 
     public void setConstExp(boolean b) {
         isConstExp = b;
+    }
+
+    public void setInFunc(boolean a) {
+        isInFunc = a;
     }
 
     @Override
@@ -35,6 +41,10 @@ public class Load_MulExp extends CodeLoad {
                 Load_UnaryExp unaryExp = new Load_UnaryExp();
                 unaryExp.setSection(item);
                 unaryExp.setConstExp(isConstExp);
+                if (flag == 0) {
+                    unaryExp.setInFunc(isInFunc);
+                }
+                flag += 1;
                 unaryExp.analyse();
                 sonQueue.offer(unaryExp.midInterface);
             } else if (item instanceof HashMap) {

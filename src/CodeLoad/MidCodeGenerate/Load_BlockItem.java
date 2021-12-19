@@ -9,6 +9,7 @@ public class Load_BlockItem extends CodeLoad {
     public void setSection(Object item) {
         super.setSection(item);
     }
+    public int current_While_Num = 0;
 
     @Override
     public void analyse() {
@@ -20,6 +21,7 @@ public class Load_BlockItem extends CodeLoad {
             } else if (item instanceof Stmt) {
                 Load_Stmt stmt = new Load_Stmt();
                 stmt.setSection(item);
+                stmt.current_While_Num = current_While_Num;
                 stmt.analyse();
             }
         }

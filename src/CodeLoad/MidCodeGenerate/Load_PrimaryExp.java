@@ -12,7 +12,9 @@ public class Load_PrimaryExp extends CodeLoad {
     //PrimaryExp -> (Exp) | LVal | Number
 
     public boolean isConstExp;
+    public boolean isInFunc;
     public int constValue;
+    public int flag = 0;
 
     public MidInterface midInterface;
 
@@ -29,6 +31,10 @@ public class Load_PrimaryExp extends CodeLoad {
         isConstExp = b;
     }
 
+    public void setInFunc(boolean b) {
+        isInFunc = b;
+    }
+
     @Override
     public void analyse() {
         Object item = section.get(0);
@@ -37,6 +43,10 @@ public class Load_PrimaryExp extends CodeLoad {
             Object item2 = section.get(1);
             exp.setSection(item2);
             exp.setConstExp(isConstExp);
+            if (flag == 0) {
+                exp.setInFunc(isInFunc);
+            }
+            flag += 1;
             exp.analyse();
             this.exp = exp;
         }
@@ -46,7 +56,12 @@ public class Load_PrimaryExp extends CodeLoad {
         else if (item instanceof LVal) {
             Load_LVal load_lVal = new Load_LVal();
             load_lVal.setSection(item);
+
             load_lVal.setConstExp(isConstExp);
+            if (flag == 0) {
+                load_lVal.setInFunc(isInFunc);
+            }
+            flag += 1;
             load_lVal.analyse();
             this.load_lVal = load_lVal;
         }

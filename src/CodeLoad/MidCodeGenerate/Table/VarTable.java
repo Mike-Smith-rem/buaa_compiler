@@ -37,10 +37,6 @@ public class VarTable extends MidInterface{
         return 0;
     }
 
-    public int getReturnValue() {
-        return returnValue;
-    }
-
     public void setReturnValue(int returnValue) {
         this.returnValue = returnValue;
     }

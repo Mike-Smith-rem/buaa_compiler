@@ -4,6 +4,7 @@ import GrammerAnalyse.GrammarInterface;
 
 public class AddExp extends GrammarInterface {
     //AddExp -> MulExp | AddExp (+|-) MulExp
+    public int lev = 0;
 
     @Override
     public void analyse() {
@@ -11,6 +12,7 @@ public class AddExp extends GrammarInterface {
         MulExp mulExp = new MulExp();
         mulExp.analyse();
         section.add(mulExp);
+        lev = mulExp.lev;
 
         //{+|- mulExp}
         while (equals(LexMap.element(), "PLUS")
@@ -20,6 +22,7 @@ public class AddExp extends GrammarInterface {
             mulExp = new MulExp();
             mulExp.analyse();
             section.add(mulExp);
+            lev = Math.max(mulExp.lev, lev);
         }
     }
 }

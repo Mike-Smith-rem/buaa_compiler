@@ -2,7 +2,8 @@ package GrammerAnalyse.GeneralAnalyse;
 
 import CompilerLoad.CompilerLoad;
 import GrammerAnalyse.GrammarInterface;
-import GrammerAnalyse.Table.Table;
+import GrammerAnalyse.Table.BlockTable;
+import GrammerAnalyse.Table.FuncTable;
 import GrammerAnalyse.Table.TableIndex;
 import GrammerAnalyse.WrongAnalyse.F_ExtraReturn;
 import GrammerAnalyse.WrongAnalyse.H_UnchangeableConst;
@@ -87,29 +88,18 @@ public class Stmt extends GrammarInterface {
             //RETURN
             case "RETURNTK":
                 CompilerLoad.getCurrent_line();
-                Table func = getLatestFunc();
-                if (func != null) {
-                    func.returned = true;
-                }
+                FuncTable func = TableIndex.cur;
+                func.isReturn = true;
                 section.add(LexMap.poll());
                 if (!equals(LexMap.element(), "SEMICN")
                         && getLine(LexMap.element()) == CompilerLoad.current_line) {
-//                    Exp exp = new Exp();
-//                    exp.analyse();
-//                    section.add(exp);
-
-                    FuncRParams funcRParams = new FuncRParams();
-                    funcRParams.analyse();
-                    Table RParam = funcRParams.RParams.get(0);
+                    func.isReturnValue = true;
+                    Exp exp = new Exp();
+                    exp.analyse();
+                    section.add(exp);
                     F_ExtraReturn extraReturn = new F_ExtraReturn();
-                    extraReturn.check(CompilerLoad.current_line, RParam);
-                    section.add(funcRParams.section.get(0));
-//                    if (func != null && !func.funcType.equals("void") && RParam.lev == 0) {
-//                        func.returned = true;
-//                    }
-//                    else if (func != null && func.funcType.equals("void")) {
-//                        func.returned = false;
-//                    }
+                    extraReturn.check(CompilerLoad.current_line);
+//
                 }
                 //;
                 if (!equals(LexMap.element(), "SEMICN")) {
@@ -174,21 +164,27 @@ public class Stmt extends GrammarInterface {
                 exp.analyse();
                 //exp->addexp->mulexp->unaryexp->primary->lval
                 if (equals(LexMap.element(), "ASSIGN")) {
-                    LVal lVal = (LVal) ((PrimaryExp)
-                            ((UnaryExp)
-                                    ((MulExp)
-                                            ((AddExp) exp.section.get(0))
-                                                    .section.get(0))
-                                            .section.get(0))
-                                    .section.get(0))
-                            .section.get(0);
-
+                    LVal lVal = new LVal();
+                        lVal = (LVal) ((PrimaryExp)
+                                ((UnaryExp)
+                                        ((MulExp)
+                                                ((AddExp) exp.section.get(0))
+                                                        .section.get(0))
+                                                .section.get(0))
+                                        .section.get(0))
+                                .section.get(0);
                     section.add(lVal);
                     H_UnchangeableConst unchangeableConst = new H_UnchangeableConst();
-                    unchangeableConst.check(((Ident) lVal.section.get(0)).getIdent(),
-                            CompilerLoad.current_line);
+                    try {
+                        unchangeableConst.check(((Ident) lVal.section.get(0)).getIdent(),
+                                CompilerLoad.current_line);
+                    } catch (Exception e) {
+                        System.out.println("There should be something error-2!");
+                        System.exit(0);
+                    }
                     //=
                     section.add(LexMap.poll());
+
                     if (equals(LexMap.element(), "GETINTTK")) {
                         section.add(LexMap.poll());
                         //(
@@ -231,12 +227,5 @@ public class Stmt extends GrammarInterface {
                 }
                 break;
         }
-    }
-
-    public Table getLatestFunc() {
-        if (TableIndex.cur_index == 1) {
-            return null;
-        }
-        return TableIndex.tables.get(TableIndex.index.peek().get(TableIndex.cur_index) - 1);
     }
 }

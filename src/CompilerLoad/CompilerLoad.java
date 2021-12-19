@@ -2,6 +2,7 @@ package CompilerLoad;
 
 import CodeLoad.CodeLoad;
 import CodeLoad.MidCodeGenerate.Load_CompUnit;
+import CodeLoad.PCodeAnalyser.PCodeAnalyser;
 import CodeLoad.PCodeGenerator.PCodeGenerate;
 import GrammerAnalyse.GeneralAnalyse.CompUnit;
 import GrammerAnalyse.GrammarInterface;
@@ -90,13 +91,8 @@ public class CompilerLoad {
         String FileName = "testfile.txt";
         OriginFile = getFileContent(FileName);
         LexAnalyse.run();
-        //System.out.println("LexAnalyse Success!");
         CompUnit compUnit = new CompUnit();
         compUnit.analyse();
-//      GrammarTree.section.add(compUnit.section);
-        //System.out.println("GrammarAnalyse Success!");
-//        String OutFile = "error.txt";
-//        OutputFileContent(OutFile);
         if (errorReport.size() == 0) {
             Load_CompUnit compUnit1 = new Load_CompUnit();
             compUnit1.setSection(compUnit);
@@ -108,6 +104,15 @@ public class CompilerLoad {
             PCodeGenerate.run();
             OutFile = "finalCode.txt";
             OutputFileContent(OutFile, PCodeGenerate.codes);
+            PCodeAnalyser.run();
+            String answer = PCodeAnalyser.output.toString();
+            ArrayList<String> str = new ArrayList<>();
+            str.add(answer);
+            String OutPutFile = "pcoderesult.txt";
+            OutputFileContent(OutPutFile, str);
+        } else {
+            String OutPutFile = "error.txt";
+            OutputFileContent(OutPutFile, errorReport);
         }
     }
 

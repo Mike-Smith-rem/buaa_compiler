@@ -21,7 +21,6 @@ public class Load_InitVal extends CodeLoad {
             if (item instanceof Exp) {
                 Load_Exp exp = new Load_Exp();
                 exp.setSection(item);
-                exp.setConstExp(true);
                 exp.analyse();
                 Exps.add(exp.midInterface);
             } else if (item instanceof InitVal) {

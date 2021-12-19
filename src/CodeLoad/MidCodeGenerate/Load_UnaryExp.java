@@ -17,10 +17,12 @@ public class Load_UnaryExp extends CodeLoad {
     // Ident ({[FuncR]})
 
     public boolean isConstExp = false;
+    public boolean isInFunc = false;
     public MidInterface midInterface;
     public int constValue = 0;
     public static int varNum = 0;
     public static int funcNum = 0;
+    public int flag = 0;
 
     public Load_PrimaryExp primary = null;
 
@@ -39,14 +41,23 @@ public class Load_UnaryExp extends CodeLoad {
         super.setSection(item);
     }
 
+    public void setInFunc(boolean b) {
+        isInFunc = b;
+    }
+
     @Override
     public void analyse() {
         for (int i = 0; i < section.size(); i ++) {
+
             Object item = section.get(i);
             if (item instanceof PrimaryExp) {
                 Load_PrimaryExp primaryExp = new Load_PrimaryExp();
                 primaryExp.setSection(item);
                 primaryExp.setConstExp(isConstExp);
+                if (flag == 0) {
+                    primaryExp.setInFunc(isInFunc);
+                }
+                flag += 1;
                 primaryExp.analyse();
                 primary = primaryExp;
             } else if (item instanceof UnaryOp) {
@@ -112,11 +123,11 @@ public class Load_UnaryExp extends CodeLoad {
             midCode.add("#CALL " + funcName);
             for (MidInterface it : rParam.RParam) {
                 midInterface.name += it.name;
-                midInterface.name += ", ";
+                midInterface.name += ",";
                 midCode.add("#PUSH " + it.name);
             }
-            if (midInterface.name.endsWith(", ")) {
-                midInterface.name = midInterface.name.substring(0, midInterface.name.length() - 2);
+            if (midInterface.name.endsWith(",")) {
+                midInterface.name = midInterface.name.substring(0, midInterface.name.length() - 1);
             }
             midInterface.name += ")";
             String TrueName = "@Func" + funcNum;

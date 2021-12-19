@@ -17,11 +17,16 @@ public class Load_LVal extends CodeLoad {
     public int constValue = 0;
     public static int varNum = 0;
     public boolean isHead = false;
+    public boolean inFunc = false;
 
 
     @Override
     public void setSection(Object item) {
         super.setSection(item);
+    }
+
+    public void setInFunc(boolean b) {
+        inFunc = b;
     }
 
     @Override
@@ -51,19 +56,28 @@ public class Load_LVal extends CodeLoad {
     @Override
     public void addSentence() {
         if (lev == 0) {
-            midInterface.name = t.name;
-            midInterface.value = t.returnValue;
+            if (isConstExp) {
+                midInterface.name = String.valueOf(t.returnValue);
+                midInterface.value = t.returnValue;
+            } else {
+                midInterface.name = t.name;
+                midInterface.value = t.returnValue;
+            }
         }
         else if (lev == 1) {
-            if (!isHead) {
+            if (!isHead && !inFunc) {
                 midInterface = new MidInterface();
                 midInterface.name = "@OneArray-" + varNum;
-                midInterface.value = t.getReturnValue(ts[lev].value);
+                if (isConstExp) {
+                    midInterface.value = t.getReturnValue(ts[lev].value);
+                }
                 midCode.add(midInterface.name + " #REPLACE " + t.name + "[" + ts[lev].name + "]");
                 varNum += 1;
             } else {
                 midInterface.name = t.name + "[" + ts[lev].name + "]";
-                midInterface.value = t.getReturnValue(ts[lev].value);
+                if (isConstExp) {
+                    midInterface.value = t.getReturnValue(ts[lev].value);
+                }
             }
         }
         else if (lev == 2) {
@@ -77,11 +91,15 @@ public class Load_LVal extends CodeLoad {
                 midInterface = new MidInterface();
                 midInterface.name = "@TwoArray-" + varNum;
                 //midInterface.name = t.name + "[" + b.name + "]";
-                midInterface.value = t.getReturnValue(ts[lev - 1].value, ts[lev].value);
+                if (isConstExp) {
+                    midInterface.value = t.getReturnValue(ts[lev - 1].value, ts[lev].value);
+                }
                 midCode.add(midInterface.name + " #REPLACE " + t.name + "[" + b.name + "]");
             } else {
                 midInterface.name = t.name + "[" + b.name + "]";
-                midInterface.value = t.getReturnValue(ts[lev - 1].value, ts[lev].value);
+                if (isConstExp) {
+                    midInterface.value = t.getReturnValue(ts[lev - 1].value, ts[lev].value);
+                }
             }
             varNum += 1;
         }

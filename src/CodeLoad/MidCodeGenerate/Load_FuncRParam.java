@@ -21,6 +21,7 @@ public class Load_FuncRParam extends CodeLoad {
             if (item instanceof Exp) {
                 Load_Exp exp = new Load_Exp();
                 exp.setSection(item);
+                exp.setInFunc(true);
                 exp.analyse();
                 RParam.add(exp.midInterface);
             }

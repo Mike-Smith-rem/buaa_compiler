@@ -3,8 +3,8 @@ package GrammerAnalyse.WrongAnalyse;
 import GrammerAnalyse.WrongFormatAnalyse;
 
 public class A_FormatString extends WrongFormatAnalyse {
+
     public void check(String str, int current_line) {
-        boolean wrong = false;
         char[] chars = str.toCharArray();
         for (int i = 1; i < chars.length - 1; i++) {
             char c = chars[i];
@@ -34,7 +34,7 @@ public class A_FormatString extends WrongFormatAnalyse {
             }
         }
         if (wrong) {
-            errorReport.add(current_line + " a\n");
+            errorReport.add(current_line + " a");
         }
     }
 }

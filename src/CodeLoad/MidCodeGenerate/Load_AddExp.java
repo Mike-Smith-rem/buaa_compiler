@@ -14,15 +14,21 @@ public class Load_AddExp extends CodeLoad {
     //addExp -> MulExp | - + MulExp
 
     public boolean isConstExp = false;
+    public boolean isInFunc = false;
     public MidInterface midInterface;
     public int constValue = 0;
     public Queue<MidInterface> sonQueue = new LinkedList<>();
     public Queue<String> opQueue = new LinkedList<>();
     public static int varNum = 0;
+    public int flag = 0;
 
     @Override
     public void setSection(Object item) {
         super.setSection(item);
+    }
+
+    public void setInFunc(boolean a) {
+        isInFunc = a;
     }
 
     @Override
@@ -31,6 +37,10 @@ public class Load_AddExp extends CodeLoad {
             if (item instanceof MulExp) {
                 Load_MulExp mulExp = new Load_MulExp();
                 mulExp.setSection(item);
+                if (flag == 0) {
+                    mulExp.setInFunc(isInFunc);
+                }
+                flag += 1;
                 mulExp.setConstExp(isConstExp);
                 mulExp.analyse();
                 sonQueue.offer(mulExp.midInterface);

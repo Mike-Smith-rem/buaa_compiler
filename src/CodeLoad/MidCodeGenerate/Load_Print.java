@@ -53,12 +53,15 @@ public class Load_Print extends CodeLoad {
         s.deleteCharAt(s.length() - 1);
         String[] str = s.toString().split("%d");
         int i = 0;
-        StringBuilder t = new StringBuilder();
         for (String s1 : str) {
-            midCode.add("#WRITEVAR " + s1);
+            midCode.add("#WRITESTR " + s1);
             if (i < Exps.size()) {
-                midCode.add("#WRITESTR " + Exps.get(i).name);
+                midCode.add("#WRITEVAR " + Exps.get(i).name);
             }
+            i += 1;
+        }
+        while (i < Exps.size()) {
+            midCode.add("#WRITEVAR " + Exps.get(i).name);
             i += 1;
         }
     }
